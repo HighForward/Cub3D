@@ -13,6 +13,24 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+typedef struct  s_line
+{
+    int lineHeight;
+    int drawstart;
+    int drawend;
+    int x;
+    int i;
+}               t_line;
+
+typedef struct  s_graphic
+{
+    float   wallX;
+    int     texY;
+    int     texX;
+    float   step;
+    float   texPos;
+}               t_graphic;
+
 typedef struct  s_info
 {
 	int height;

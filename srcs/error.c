@@ -58,6 +58,6 @@ int     return_error(int value, t_data *data, char *str)
 	if (data->map != NULL)
 		free_entire_map(data->map);
     ft_putstr(str);
-    system("leaks a.out");
+    //system("leaks a.out");
     return (value);
 }

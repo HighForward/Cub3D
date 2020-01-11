@@ -128,19 +128,19 @@ int     check_map(int fd, t_data *data)
 	secure = 0;
 	while (get_next_line(fd, &line))
 	{
-		cut_space(&line);
 		if (line[0] == '1')
 		{
+            cut_space(&line);
 			if (!is_valid_line(line))
 				return (return_string(0, "Error\nUndetermined object found\n"));
 			fill_map(data, line, &secure);
 		}
 		else if (!ft_strlen(line) && secure)
-			return (free_and_return(return_string(0, "Error\nWrong line\n"), line));
+			return (free_and_return(return_string(0, "Error\nEmpty line found\n"), line));
 		else
 		{
 			if (ft_strlen(line) > 0)
-				return (free_and_return(return_string(0, "Error\nNo empty line\n"), line));
+				return (free_and_return(return_string(0, "Error\nWrong line found\n"), line));
 			free(line);
 		}
 	}

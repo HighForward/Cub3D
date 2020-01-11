@@ -34,9 +34,9 @@ int     get_event(int key, t_data *data)
     if (key == 115)
         move_front_back(data, -data->player->move);
     if (key == 113)
-        move_side(data, data->player->move);
-    if (key == 100)
         move_side(data, -data->player->move);
+    if (key == 100)
+        move_side(data, data->player->move);
     if (key == 65307)
 		exit(1);
     leave_secret_door(data);

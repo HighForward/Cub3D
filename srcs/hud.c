@@ -30,7 +30,7 @@ int     display_lifebar(t_data *data)
         start = data->info->width / 4;
         while (start < (width_lifebar + temp_start) - percentage)
         {
-            data->image->img_data[x * data->info->width + start] = convertRGB(255, 0, 0);
+            data->image->img_data[x * data->info->width + start] = convertRGB(255, 0, 0) + percentage / 2;
             start++;
         }
         x++;

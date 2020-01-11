@@ -102,7 +102,10 @@ int     is_valid_line(char *s)
 	while (s[i])
 	{
 		if (s[i] != '1' && s[i] != '0' && s[i] != 'D' && s[i] != 'N' && s[i] != 'S' && s[i] != 'E' && s[i] != 'W'  && s[i] != 'H' && s[i] != '2')
-			return (0);
+        {
+		    free(s);
+            return (0);
+        }
 		i++;
 	}
 	return (1);

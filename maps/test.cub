@@ -1,9 +1,10 @@
 R 1000 800
-NO textures/autorouteduBH.xpm
-SO textures/LGBT.xpm
-WE textures/ok.xpm
-EA textures/xd.xpm
-S path_to_the_sprite_texture
+NO textures/1.xpm
+SO textures/1.xpm
+WE textures/1.xpm
+EA textures/1.xpm
+D  textures/1.xpm
+S  textures/4.xpm
 F 3,180,0
 C 31,119,255
 

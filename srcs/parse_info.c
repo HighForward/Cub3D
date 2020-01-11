@@ -102,7 +102,7 @@ int     parse_map(t_data *data, char *s, int *i)
 {
     if (check_info(s, data))
     {
-        if (ft_strnstr(s, "R ", 2))
+        if (ft_strnstr(s, "R ", 2) && data->info->height == 0 && data->info->width == 0)
         {
             if (parse_map_info_window(s, &data->info->height, &data->info->width, 1 + skip_space(s + 1)) == 0)
                 return (return_string(-1, "Error\nWrong resolution\n"));
@@ -119,12 +119,12 @@ int     parse_map(t_data *data, char *s, int *i)
 			data->tex->sprite.path = ft_strdup(s + 1 + skip_space(s + 1));
         else if (ft_strnstr(s, "D ", 2) && data->tex->door.path == NULL)
 			data->tex->door.path = ft_strdup(s + 1 + skip_space(s + 1));
-        else if (ft_strnstr(s, "F ", 2))
+        else if (ft_strnstr(s, "F ", 2) && data->info->color_floor == 0)
         {
             if (get_texture_C_F(s, 1 + skip_space(s + 1), &data->info->color_floor) == 0)
                 return (0);
         }
-        else if (ft_strnstr(s, "C ", 2))
+        else if (ft_strnstr(s, "C ", 2) && data->info->color_cellar == 0)
         {
             if (get_texture_C_F(s, 1 + skip_space(s + 1), &data->info->color_cellar) == 0)
                 return (0);

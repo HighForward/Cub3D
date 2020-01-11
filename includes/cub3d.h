@@ -24,6 +24,8 @@ int		return_string_free(int value, char *str);
 int     close_red_button(t_data *game);
 void	initialize_struct_texture(t_data *data);
 
+int     open_file_description(t_data *data, int *fd, char *str);
+
 // PARSING INFOS CUB
 int		skip_space(char *str);
 int     info_header_cub(int fd, t_data *data);
@@ -76,19 +78,25 @@ int     display_lifebar(t_data *data);
 void    take_damage(t_data *data, int value);
 void    get_view_vertical(int key, t_data *data);
 
-//COLOR
+// COLOR
 int     get_transparency(t_data *data, int color, int destination);
 int     convertRGB(int R, int G, int B);
 t_color    c(int v);
 
-//SECRETDOOR
+// SECRETDOOR
 void    handle_secret_door(t_data *data, t_render *render, t_ray ray);
 void    leave_secret_door(t_data *data);
 
-int		display_view(t_player *p, t_data *data);
+// RENDER
+
 int		get_wall(t_data *data, t_ray ray);
+void    get_wall_dda(t_data *data, t_render *render, t_ray ray);
+void    setup_ray_render(t_data *data, t_render *render, t_ray);
+void    load_line_buffer(t_data *data, t_render render, t_ray ray, t_line size, t_tex_info current, int **buffer);
+void    print_lines(t_data *data, t_line line, t_ray ray, int *buffer);
+int		display_view(t_player *p, t_data *data);
 int		display_line(t_data *data, float step, int i);
-int		print_line(t_data *data, t_ray ray, t_render render);
+int		get_size_line(t_data *data, t_ray ray, t_render render);
 
 
 t_tex_info		current_texture(t_data *data, t_render render);

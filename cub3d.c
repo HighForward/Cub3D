@@ -12,6 +12,24 @@
 
 #include "includes/cub3d.h"
 
+int wrong_extention(char *str)
+{
+    int len;
+
+    if ((len = ft_strlen(str)) <= 4)
+        return (0);
+    if (ft_strnstr(str + len - 4, ".cub", 4) == NULL)
+        return (0);
+}
+
+int open_file_description(t_data *data, int *fd, char *str)
+{
+    if (!(wrong_extention(str)))
+        return (return_error(0, data, "Error\nWrong map extention\n"));
+    if (!((*fd) = open(str, O_RDONLY)))
+        return (return_error(0, data, "Error\n"));
+}
+
 int main(int argc, char **argv)
 {
     t_data *data;
@@ -25,8 +43,8 @@ int main(int argc, char **argv)
 	initialize_struct_texture(data);
     if (argc > 3 || argc < 2)
         return (return_error(1, data, "Bad arguments\n"));
-    if (!(fd = open(argv[1], O_RDONLY)))
-        return (return_error(1, data, "Can't open map"));
+    if (!(open_file_description(data, &fd, argv[1])))
+        return (return_error(1, data, "Can't open map\n"));
     if ((data->mlx_ptr = mlx_init()) == NULL)
         return (return_error(1, data, "Can't init mlx\n"));
     if (!(info_header_cub(fd, data)))
