@@ -61,19 +61,3 @@ void    leave_secret_door(t_data *data)
 	last_pos_x = (int)data->player->y;
 	last_pos_y = (int)data->player->x;
 }
-
-/*void    get_view_vertical(int key, t_data *data)
-{
-    //	if (key == 126 || key == 125)
-    //		get_view_vertical(key, data);
-
-	int temp_haut;
-	int temp_bas;
-
-	temp_haut = data->info->height / 4;
-	temp_bas = data->info->height / (-4);
-	if (key == 65362 && data->shift < temp_haut)
-		data->shift += temp_haut;
-	if (key == 65364 && data->shift > temp_bas)
-		data->shift += temp_bas;
-}*/

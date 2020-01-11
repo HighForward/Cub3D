@@ -85,12 +85,10 @@ void    ft_putpixel(char *line, int i, t_data *data)
     int y;
     int index;
     int color;
-    int j;
 
     index = 0;
     x = 0;
     y = (i * ((data->info->width + data->info->height) / 200));
-
     while (line[index])
     {
         if (line[index] == '1')

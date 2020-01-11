@@ -42,6 +42,6 @@ int     get_event(int key, t_data *data)
     leave_secret_door(data);
     data->secret_key = key == 101 ? 1 : 0;
     if (display(data) == 0)
-    	return (0);
+    	exit(1);
     return (1);
 }

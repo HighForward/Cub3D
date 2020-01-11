@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     data->image = malloc(sizeof(t_image));
     data->tex = malloc(sizeof(t_texture));
 	initialize_struct_texture(data);
-    if (argc > 3 || argc < 2)
+    if (argc < 2 || argc > 3)
         return (return_error(1, data, "Bad arguments\n"));
     if (!(open_file_description(data, &fd, argv[1])))
         return (return_error(1, data, "Can't open map\n"));
@@ -58,8 +58,14 @@ int main(int argc, char **argv)
     if (!(check_map(fd, data)))
         return (return_error(1, data, "Parsing map\n"));
 	display(data);
+    if (argc == 3 && ft_strnstr(argv[2], "-save", 5))
+    {
+        save_bmp(data);
+        printf("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
+        exit(1);
+        return (1);
+    }
     mlx_hook(data->win_ptr, 17, 1L << 0, close_red_button, (void*)data);
     mlx_hook(data->win_ptr, 2, 1L << 0, get_event, (void*)data);
     mlx_loop(data->mlx_ptr);
-    return (0);
 }

@@ -82,6 +82,16 @@ typedef struct  s_image
 	int *img_data;
 }               t_image;
 
+
+typedef struct  s_texture_info
+{
+	char *path;
+	void *data_tex;
+	int *add_tex;
+	int img_height;
+	int img_width;
+}               t_tex_info;
+
 typedef struct  s_render
 {
 	int map_x;
@@ -96,17 +106,12 @@ typedef struct  s_render
 	int hit;
 	int blockdist;
 	float perpWallDist;
+	int lineHeight;
+	int drawstart;
+	int drawend;
+	t_tex_info current;
 	int secret_door;
 }               t_render;
-
-typedef struct  s_texture_info
-{
-	char *path;
-	void *data_tex;
-	int *add_tex;
-	int img_height;
-	int img_width;
-}               t_tex_info;
 
 typedef struct  s_texture
 {
@@ -128,6 +133,7 @@ typedef struct  s_data
 	t_info  *info;
 	t_player *player;
 	int secret_key;
+	int save;
 }               t_data;
 
 typedef struct	s_rgba

@@ -76,7 +76,6 @@ int		display_cross_pixel(int x, int y, t_data *data, int color);
 int		display_cross_around(t_data *data, int color);
 int     display_lifebar(t_data *data);
 void    take_damage(t_data *data, int value);
-void    get_view_vertical(int key, t_data *data);
 
 // COLOR
 int     get_transparency(t_data *data, int color, int destination);
@@ -91,14 +90,16 @@ void    leave_secret_door(t_data *data);
 
 int		get_wall(t_data *data, t_ray ray);
 void    get_wall_dda(t_data *data, t_render *render, t_ray ray);
-void    setup_ray_render(t_data *data, t_render *render, t_ray);
-void    load_line_buffer(t_data *data, t_render render, t_ray ray, t_line size, t_tex_info current, int **buffer);
-void    print_lines(t_data *data, t_line line, t_ray ray, int *buffer);
+void    load_line_buffer(t_data *data, t_render render, t_ray ray, int **buffer);
+void    print_lines(t_data *data, t_ray ray, t_render render, int *buffer);
 int		display_view(t_player *p, t_data *data);
 int		display_line(t_data *data, float step, int i);
-int		get_size_line(t_data *data, t_ray ray, t_render render);
-
-
+int		get_line(t_data *data, t_ray ray, t_render render);
 t_tex_info		current_texture(t_data *data, t_render render);
+
+int     save_bmp(t_data *data);
+int     bmp_header(int save, int size, t_data *data);
+void	put_int_in_char(unsigned char *begin, int val);
+int	write_data(int file, t_data *data, int step);
 
 #endif
