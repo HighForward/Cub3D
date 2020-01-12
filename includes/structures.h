@@ -13,6 +13,14 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+typedef struct 	s_sprite
+{
+	int x;
+	int y;
+	float Dist;
+	int is_sprite;
+}				t_sprite;
+
 typedef struct  s_line
 {
     int lineHeight;
@@ -67,6 +75,7 @@ typedef struct  s_vector
 typedef struct  s_player
 {
 	int life;
+	int dead;
 	float x;
 	float y;
 	float view;
@@ -121,6 +130,8 @@ typedef struct  s_texture
 	t_tex_info west;
 	t_tex_info sprite;
 	t_tex_info door;
+	t_tex_info dead;
+	t_tex_info hud;
 }               t_texture;
 
 typedef struct  s_data
@@ -134,6 +145,7 @@ typedef struct  s_data
 	t_player *player;
 	int secret_key;
 	int save;
+	t_sprite sprite;
 }               t_data;
 
 typedef struct	s_rgba

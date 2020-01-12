@@ -61,10 +61,11 @@ int main(int argc, char **argv)
     if (argc == 3 && ft_strnstr(argv[2], "-save", 5))
     {
         save_bmp(data);
-        printf("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
         exit(1);
         return (1);
     }
+    else if (argc == 3)
+        return (return_error(1, data, "Undefinded parameter\n"));
     mlx_hook(data->win_ptr, 17, 1L << 0, close_red_button, (void*)data);
     mlx_hook(data->win_ptr, 2, 1L << 0, get_event, (void*)data);
     mlx_loop(data->mlx_ptr);

@@ -84,14 +84,17 @@ void print_lines(t_data *data, t_ray ray, t_render render, int *buffer)
     while (x < data->info->height)
     {
         if (x > render.drawstart && x < render.drawend)
-            data->image->img_data[x * data->info->width + ray.i] = buffer[i++];
+        {
+            data->image->img_data[x * data->info->width + ray.i] = get_darkness(buffer[i++], render.lineHeight);
+        }
         else if (x <= render.drawstart)
+        {
             data->image->img_data[x * data->info->width + ray.i] = data->info->color_cellar;
+        }
         else if (x >= render.drawend && x < data->info->height)
             data->image->img_data[x * data->info->width + ray.i] = data->info->color_floor;
         x++;
     }
-    free(buffer);
 }
 
 int get_line(t_data *data, t_ray ray, t_render render)
@@ -115,11 +118,13 @@ int get_line(t_data *data, t_ray ray, t_render render)
         return (0);
     load_line_buffer(data, render, ray, &buffer);
     print_lines(data, ray, render, buffer);
+    free(buffer);
     return (1);
 }
 
 void get_wall_dda(t_data *data, t_render *render, t_ray ray)
 {
+    data->sprite.is_sprite = 0;
     while (render->hit == 0)
     {
         if (render->sideDistX < render->sideDistY)
@@ -135,6 +140,12 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
         }
         if (data->map[render->map_y][render->map_x] == '1')
             render->hit = 1;
+        else if (data->map[render->map_y][render->map_x] == '2')
+        {
+            data->sprite.y = render->map_y;
+            data->sprite.x = render->map_x;
+            data->sprite.is_sprite = 1;
+        }
         else if (data->map[render->map_y][render->map_x] == 'D' || data->map[render->map_y][render->map_x] == 'H')
             handle_secret_door(data, render, ray);
         render->blockdist++;
@@ -143,18 +154,18 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
         render->perpWallDist = (render->map_x - data->player->x + (1 - render->step_x) / 2) / ray.x;
     else
         render->perpWallDist = (render->map_y - data->player->y + (1 - render->step_y) / 2) / ray.y;
+    data->sprite.Dist = render->perpWallDist;
 }
 
 int get_wall(t_data *data, t_ray ray)
 {
     t_render render;
-
     render.secret_door = 0;
     render.perpWallDist = 0.0f;
     render.blockdist = 0;
     render.hit = 0;
-    render.map_x = (int) data->player->x;
-    render.map_y = (int) data->player->y;
+    render.map_x = (int)data->player->x;
+    render.map_y = (int)data->player->y;
     render.deltaDistX = sqrt(1 + (ray.y * ray.y) / (ray.x * ray.x));
     render.deltaDistY = sqrt(1 + (ray.x * ray.x) / (ray.y * ray.y));
     render.step_x = ray.x < 0 ? -1 : 1;
@@ -165,5 +176,6 @@ int get_wall(t_data *data, t_ray ray)
     render.current = current_texture(data, render);
     if (!(get_line(data, ray, render)))
         return (0);
+        //display_sprite(data, ray);
     return (1);
 }

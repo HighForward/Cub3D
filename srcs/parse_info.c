@@ -14,7 +14,8 @@ int     check_info(char *str, t_data *data)
 {
     if (ft_strnstr(str, "R ", 2) || ft_strnstr(str, "NO ", 3) || ft_strnstr(str, "SO ", 3) ||
         ft_strnstr(str, "WE ", 3) || ft_strnstr(str, "EA", 3) || ft_strnstr(str, "S ", 2) ||
-        ft_strnstr(str, "F ", 2) || ft_strnstr(str, "C ", 2) || ft_strnstr(str, "D ", 2))
+        ft_strnstr(str, "F ", 2) || ft_strnstr(str, "C ", 2) || ft_strnstr(str, "D ", 2) ||
+        ft_strnstr(str, "DEAD ", 5) || ft_strnstr(str, "HUD ", 4))
         return (1);
     return (0);
 }
@@ -119,6 +120,10 @@ int     parse_map(t_data *data, char *s, int *i)
 			data->tex->sprite.path = ft_strdup(s + 1 + skip_space(s + 1));
         else if (ft_strnstr(s, "D ", 2) && data->tex->door.path == NULL)
 			data->tex->door.path = ft_strdup(s + 1 + skip_space(s + 1));
+        else if (ft_strnstr(s, "DEAD ", 5) && data->tex->dead.path == NULL)
+            data->tex->dead.path = ft_strdup(s + 4 + skip_space(s + 4));
+        else if (ft_strnstr(s, "HUD ", 4) && data->tex->hud.path == NULL)
+            data->tex->hud.path = ft_strdup(s + 3 + skip_space(s + 3));
         else if (ft_strnstr(s, "F ", 2) && data->info->color_floor == 0)
         {
             if (get_texture_C_F(s, 1 + skip_space(s + 1), &data->info->color_floor) == 0)
@@ -146,7 +151,7 @@ int     info_header_cub(int fd, t_data *data)
     char *line;
 
     i = 0;
-    while (i != 9)
+    while (i != 11)
     {
         if ((ret = get_next_line(fd, &line)) <= 0)
 		{

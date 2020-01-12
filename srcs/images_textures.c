@@ -71,5 +71,9 @@ int     load_texture(t_data *data)
 		return (0);
 	if (!(fill_textures(data, &data->tex->door)))
 		return (0);
+	if (!(fill_textures(data, &data->tex->dead)))
+	    return (0);
+    if (!(fill_textures(data, &data->tex->hud)))
+        return (0);
 	return (1);
 }

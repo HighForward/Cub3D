@@ -12,6 +12,70 @@
 
 #include "../includes/cub3d.h"
 
+void    display_hud(t_data *data)
+{
+    float echX;
+    float echY;
+    float step_x;
+    float step_y;
+    int i;
+    int j;
+
+    echX = (float)data->tex->hud.img_width / (float)data->info->width;
+    echY = (float)data->tex->hud.img_height / (float)data->info->height;
+    step_x = 0;
+    step_y = 0;
+    i = 0;
+    while (i < data->info->height)
+    {
+        j = 0;
+        step_x = 0;
+        while (j < data->info->width)
+        {
+            if (data->tex->hud.add_tex[((int)step_y) * data->tex->hud.img_width + ((int)step_x)] != convertRGB(255, 0, 0))
+                data->image->img_data[i * data->info->width + j] = data->tex->hud.add_tex[((int)step_y) * data->tex->hud.img_width + ((int)step_x)];
+            step_x += echX;
+            j++;
+        }
+        step_y += echY;
+        i++;
+    }
+}
+
+void    display_dead_screen(t_data *data, int key)
+{
+    float echX;
+    float echY;
+    float step_x;
+    float step_y;
+    int i;
+    int j;
+
+    echX = (float)data->tex->dead.img_width / (float)data->info->width;
+    echY = (float)data->tex->dead.img_height / (float)data->info->height;
+    step_x = 0;
+    step_y = 0;
+    i = 0;
+    while (i < data->info->height)
+    {
+        j = 0;
+        step_x = 0;
+        while (j < data->info->width)
+        {
+            data->image->img_data[i * data->info->width + j] = data->tex->dead.add_tex[((int)step_y) * data->tex->dead.img_width + ((int)step_x)];
+            step_x += echX;
+            j++;
+        }
+        step_y += echY;
+        i++;
+    }
+    if (key == 32)
+    {
+        data->player->dead = 0;
+        display(data);
+    }
+}
+
 void    take_damage(t_data *data, int value)
 {
 	int j;
@@ -24,6 +88,7 @@ void    take_damage(t_data *data, int value)
 		data->player->life = 100;
 		data->player->x = data->player->spawn.spawn_x + 0.20f;
 		data->player->y = data->player->spawn.spawn_y + 0.20f;
+		data->player->dead = 1;
 	}
 }
 
@@ -60,4 +125,20 @@ void    leave_secret_door(t_data *data)
 	last_pos = data->map[(int)data->player->y][(int)data->player->x];
 	last_pos_x = (int)data->player->y;
 	last_pos_y = (int)data->player->x;
+}
+
+int     get_darkness(int color, int percent)
+{
+
+    t_color current;
+    t_color darkness;
+    int coeff;
+
+    percent += 15;
+    coeff = percent > 100 ? 100 : percent;
+    current.value = color;
+    darkness.rgba.r = (current.rgba.r * coeff / 100);
+    darkness.rgba.g = (current.rgba.g * coeff / 100);
+    darkness.rgba.b = (current.rgba.b * coeff / 100);
+    return (darkness.value);
 }

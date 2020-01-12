@@ -16,7 +16,8 @@ int display(t_data *data)
 {
 	if (display_view(data->player, data) == 0)
 		return (0);
-	print_map(data);
+    display_hud(data);
+    print_map(data);
 	display_lifebar(data);
 	display_cross(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image->image, 0, 0);
@@ -43,5 +44,7 @@ int     get_event(int key, t_data *data)
     data->secret_key = key == 101 ? 1 : 0;
     if (display(data) == 0)
     	exit(1);
+    if (data->player->dead == 1)
+        display_dead_screen(data, key);
     return (1);
 }

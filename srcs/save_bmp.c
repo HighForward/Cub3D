@@ -22,7 +22,7 @@ int     bmp_header(int save, int size, t_data *data)
     header[10] = (unsigned char)(54);
     header[14] = (unsigned char)(40);
     put_int_in_char(header + 18, data->info->width);
-    put_int_in_char(header + 22, data->info->width);
+    put_int_in_char(header + 22, data->info->height);
     header[27] = (unsigned char)(1);
     header[28] = (unsigned char)(24);
     return (!(write(save, header, 54) < 0));
@@ -34,16 +34,14 @@ int	write_data(int file, t_data *data, int step)
     int					x;
     int					y;
     int					color;
-    t_color             current;
 
     y = data->info->height;
     while (y > 0)
     {
         x = 0;
-        while (x < data->info->width) // x * data->info->width + ray.i
+        while (x < data->info->width)
         {
-            current = c(data->image->img_data[x + y * data->info->width]);
-            color = current.value;
+            color = data->image->img_data[x + y * data->info->width];
             if (write(file, &color, 3) < 0)
                 return (0);
             if (step > 0 && write(file, &zero, step) < 0)
@@ -60,7 +58,7 @@ int     save_bmp(t_data *data)
     int save;
     int size;
     save = open("screen.bmp", O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
-    size = 54 + ((data->info->width + 4) * data->info->height);
+    size = 54 + (3 * (data->info->width + 4) * data->info->height);
     bmp_header(save, size, data);
     write_data(save, data, 4);
     close(save);

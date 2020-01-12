@@ -55,6 +55,8 @@ int     return_error(int value, t_data *data, char *str)
 		free(data->tex->door.path);
 	if (data->tex->sprite.path != NULL)
 		free(data->tex->sprite.path);
+    if (data->tex->dead.path != NULL)
+        free(data->tex->dead.path);
 	if (data->map != NULL)
 		free_entire_map(data->map);
     ft_putstr(str);

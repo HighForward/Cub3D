@@ -21,8 +21,11 @@ void		initialize_struct_texture(t_data *data)
 	data->tex->west.path = NULL;
 	data->tex->sprite.path = NULL;
 	data->tex->door.path = NULL;
+	data->tex->dead.path = NULL;
+	data->tex->hud.path = NULL;
 	data->info->height = 0;
 	data->info->width = 0;
 	data->info->color_floor = 0;
 	data->info->color_cellar = 0;
+	data->player->dead = 0;
 }

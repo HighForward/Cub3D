@@ -9,14 +9,14 @@ int     display_lifebar(t_data *data)
     float percentage;
 
     x = data->info->height - 60;
-    start = data->info->width / 4;
+    start = data->info->width / 3;
     temp_start = start;
-    width_lifebar = data->info->width / 2;
+    width_lifebar = data->info->width / 3;
     percentage = (width_lifebar / 100) * (100 - data->player->life);
 
     while (x < data->info->height)
     {
-        start = (data->info->width / 4) - 10;
+        start = (data->info->width / 3) - 10;
         while (start < width_lifebar + temp_start + 10)
         {
             data->image->img_data[x * data->info->width + start] = convertRGB(0, 0, 0);
@@ -27,10 +27,10 @@ int     display_lifebar(t_data *data)
     x = data->info->height - 50;
     while (x < data->info->height - 10)
     {
-        start = data->info->width / 4;
+        start = data->info->width / 3;
         while (start < (width_lifebar + temp_start) - percentage)
         {
-            data->image->img_data[x * data->info->width + start] = convertRGB(255, 0, 0) + percentage / 2;
+            data->image->img_data[x * data->info->width + start] = convertRGB(255, 0, 0) + percentage / 0.25f;
             start++;
         }
         x++;
@@ -62,17 +62,17 @@ void    display_rekt(int x, int y, int color, t_data *data)
     count = 1;
     i = x;
     j = y;
-    while (x < i + ((data->info->width + data->info->height) / 200))
+    while (x < i + ((data->info->width + data->info->height) / 250))
     {
         y = j;
-        while (y < j + ((data->info->width + data->info->height) / 200))
+        while (y < j + ((data->info->width + data->info->height) / 250))
         {
 			w = c(color);
 			z = c(data->image->img_data[y * data->info->width + x]);
             final.rgba.r = get_transparency(data, w.rgba.r, z.rgba.r);
             final.rgba.g = get_transparency(data, w.rgba.g, z.rgba.g);
             final.rgba.b = get_transparency(data, w.rgba.b, z.rgba.b);
-            data->image->img_data[y * data->info->width + x] = final.value;
+            data->image->img_data[y * data->info->width + x] = color;
             y++;
         }
         x++;
@@ -88,7 +88,7 @@ void    ft_putpixel(char *line, int i, t_data *data)
 
     index = 0;
     x = 0;
-    y = (i * ((data->info->width + data->info->height) / 200));
+    y = (i * ((data->info->width + data->info->height) / 250));
     while (line[index])
     {
         if (line[index] == '1')
@@ -104,7 +104,7 @@ void    ft_putpixel(char *line, int i, t_data *data)
         else
             color = convertRGB(255, 0, 0);
         display_rekt(x, y, color, data);
-        x += ((data->info->width + data->info->height) / 200);
+        x += ((data->info->width + data->info->height) / 250);
         index++;
     }
 }
