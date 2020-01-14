@@ -17,8 +17,10 @@ typedef struct 	s_sprite
 {
 	int x;
 	int y;
-	float Dist;
-	int is_sprite;
+	int north;
+	int south;
+	int west;
+	int est;
 }				t_sprite;
 
 typedef struct  s_line

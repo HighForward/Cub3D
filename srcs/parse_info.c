@@ -65,6 +65,8 @@ int     parse_map_info_window(char *str, int *dest1, int *dest2, int start)
     	return (0);
     *dest2 = *dest2 < 500 ? 500 : *dest2;
     *dest1 = *dest1 < 500 ? 500 : *dest1;
+    *dest2 = *dest2 > 2560 ? 2560 : *dest2;
+    *dest1 = *dest1 > 1400 ? 1400 : *dest1;
     *dest2 = *dest2 < *dest1 ? *dest1 : *dest2;
 
     return (1);

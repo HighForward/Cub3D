@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:04:46 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/09 09:08:31 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:56:12 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void    display_dead_screen(t_data *data, int key)
         step_y += echY;
         i++;
     }
-    if (key == 32)
-    {
-        data->player->dead = 0;
-        display(data);
-    }
+    if (key == 49)
+	{
+		data->player->dead = 0;
+		display(data, 0);
+	}
 }
 
 void    take_damage(t_data *data, int value)
@@ -83,7 +83,7 @@ void    take_damage(t_data *data, int value)
 
 	j = 0;
 	data->player->life -= value;
-	if (data->player->life == 0)
+	if (data->player->life <= 0)
 	{
 		data->player->life = 100;
 		data->player->x = data->player->spawn.spawn_x + 0.20f;

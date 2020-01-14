@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:41 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/09 16:30:55 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/14 19:06:22 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int wrong_extention(char *str)
         return (0);
     if (ft_strnstr(str + len - 4, ".cub", 4) == NULL)
         return (0);
+    return (1);
 }
 
 int open_file_description(t_data *data, int *fd, char *str)
@@ -28,6 +29,7 @@ int open_file_description(t_data *data, int *fd, char *str)
         return (return_error(0, data, "Error\nWrong map extention\n"));
     if (!((*fd) = open(str, O_RDONLY)))
         return (return_error(0, data, "Error\n"));
+    return (1);
 }
 
 int main(int argc, char **argv)
@@ -57,16 +59,13 @@ int main(int argc, char **argv)
 		return (return_error(1, data, "Error images\n"));
     if (!(check_map(fd, data)))
         return (return_error(1, data, "Parsing map\n"));
-	display(data);
+	display(data, 0);
     if (argc == 3 && ft_strnstr(argv[2], "-save", 5))
-    {
         save_bmp(data);
-        exit(1);
-        return (1);
-    }
     else if (argc == 3)
         return (return_error(1, data, "Undefinded parameter\n"));
     mlx_hook(data->win_ptr, 17, 1L << 0, close_red_button, (void*)data);
     mlx_hook(data->win_ptr, 2, 1L << 0, get_event, (void*)data);
     mlx_loop(data->mlx_ptr);
+	system("leaks a.out");
 }

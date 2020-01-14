@@ -28,4 +28,8 @@ void		initialize_struct_texture(t_data *data)
 	data->info->color_floor = 0;
 	data->info->color_cellar = 0;
 	data->player->dead = 0;
+	data->sprite.west = 0;
+	data->sprite.north = 0;
+	data->sprite.est = 0;
+	data->sprite.south = 0;
 }

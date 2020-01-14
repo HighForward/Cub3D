@@ -69,7 +69,7 @@ void    display_rekt(int x, int y, int color, t_data *data);
 int     print_render(t_data *data);
 
 // HUD
-int		display(t_data *data);
+int		display(t_data *data, int key);
 int		display_cross(t_data *data);
 int     display_cross_circle(int x, int y, t_data *data, int color);
 int		display_cross_pixel(int x, int y, t_data *data, int color);
@@ -105,6 +105,10 @@ void    display_sprite(t_data *data, t_ray ray);
 int     save_bmp(t_data *data);
 int     bmp_header(int save, int size, t_data *data);
 void	put_int_in_char(unsigned char *begin, int val);
-int     write_data(int file, t_data *data, int step);
+int     write_data(int file, t_data *data);
+
+
+int		degrade_couleur(int color, int x);
+int tri_sprite(int a, int b, int c, int d);
 
 #endif

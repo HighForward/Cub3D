@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:22 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/10 14:04:16 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/14 19:22:53 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void load_line_buffer(t_data *data, t_render render, t_ray ray, int **buffer)
     {
         tex.texY = (int) tex.texPos & (render.current.img_height) - 1;
         tex.texPos += tex.step;
-        (*buffer)[i] = render.current.add_tex[render.current.img_height * tex.texY + tex.texX];
+        (*buffer)[i] = get_darkness(render.current.add_tex[render.current.img_height * tex.texY + tex.texX], render.lineHeight);
         i++;
         y++;
     }
@@ -85,12 +85,11 @@ void print_lines(t_data *data, t_ray ray, t_render render, int *buffer)
     {
         if (x > render.drawstart && x < render.drawend)
         {
-            data->image->img_data[x * data->info->width + ray.i] = get_darkness(buffer[i++], render.lineHeight);
+            data->image->img_data[x * data->info->width + ray.i] = buffer[i];
+            i++;
         }
         else if (x <= render.drawstart)
-        {
             data->image->img_data[x * data->info->width + ray.i] = data->info->color_cellar;
-        }
         else if (x >= render.drawend && x < data->info->height)
             data->image->img_data[x * data->info->width + ray.i] = data->info->color_floor;
         x++;
@@ -114,17 +113,17 @@ int get_line(t_data *data, t_ray ray, t_render render)
         render.drawstart = 0;
     if (render.drawend >= data->info->height)
         render.drawend = data->info->height - 1;
-    if (!(buffer = malloc(sizeof(int) * (render.current.img_height * render.current.img_width + 1))))
+    if (!(buffer = malloc(sizeof(int) * (render.lineHeight + 1))))
         return (0);
     load_line_buffer(data, render, ray, &buffer);
     print_lines(data, ray, render, buffer);
     free(buffer);
+    buffer = NULL;
     return (1);
 }
 
 void get_wall_dda(t_data *data, t_render *render, t_ray ray)
 {
-    data->sprite.is_sprite = 0;
     while (render->hit == 0)
     {
         if (render->sideDistX < render->sideDistY)
@@ -144,7 +143,14 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
         {
             data->sprite.y = render->map_y;
             data->sprite.x = render->map_x;
-            data->sprite.is_sprite = 1;
+			if (render->side == 1 && render->step_y == 1)
+				data->sprite.south++;
+			if (render->side == 1 && render->step_y == -1)
+				data->sprite.north++;
+			if (render->side == 0 && render->step_x == -1)
+				data->sprite.est++;
+			if (render->side == 0 && render->step_x == 1)
+				data->sprite.west++;
         }
         else if (data->map[render->map_y][render->map_x] == 'D' || data->map[render->map_y][render->map_x] == 'H')
             handle_secret_door(data, render, ray);
@@ -154,28 +160,53 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
         render->perpWallDist = (render->map_x - data->player->x + (1 - render->step_x) / 2) / ray.x;
     else
         render->perpWallDist = (render->map_y - data->player->y + (1 - render->step_y) / 2) / ray.y;
-    data->sprite.Dist = render->perpWallDist;
 }
 
+int tri_sprite(int a, int b, int c, int d)
+{
+	if (a > b && a > c && a > d)
+		return (1);
+	if (b > a && b > c && b > d)
+		return (2);
+	if (c > a && c > b && c > d)
+		return (3);
+	if (d > a && d > b && d > c)
+		return (4);
+	return (0);
+}
 int get_wall(t_data *data, t_ray ray)
 {
-    t_render render;
-    render.secret_door = 0;
-    render.perpWallDist = 0.0f;
-    render.blockdist = 0;
-    render.hit = 0;
-    render.map_x = (int)data->player->x;
-    render.map_y = (int)data->player->y;
-    render.deltaDistX = sqrt(1 + (ray.y * ray.y) / (ray.x * ray.x));
-    render.deltaDistY = sqrt(1 + (ray.x * ray.x) / (ray.y * ray.y));
-    render.step_x = ray.x < 0 ? -1 : 1;
-    render.step_y = ray.y < 0 ? -1 : 1;
-    render.sideDistX = (ray.x < 0 ? data->player->x - render.map_x : render.map_x + 1.0f - data->player->x) * render.deltaDistX;
-    render.sideDistY = (ray.y < 0 ? data->player->y - render.map_y : render.map_y + 1.0f - data->player->y) * render.deltaDistY;
-    get_wall_dda(data, &render, ray);
-    render.current = current_texture(data, render);
-    if (!(get_line(data, ray, render)))
-        return (0);
-        //display_sprite(data, ray);
-    return (1);
+	t_render render;
+	render.secret_door = 0;
+	render.perpWallDist = 0.0f;
+	render.blockdist = 0;
+	render.hit = 0;
+	render.map_x = (int) data->player->x;
+	render.map_y = (int) data->player->y;
+	render.deltaDistX = sqrt(1 + (ray.y * ray.y) / (ray.x * ray.x));
+	render.deltaDistY = sqrt(1 + (ray.x * ray.x) / (ray.y * ray.y));
+	render.step_x = ray.x < 0 ? -1 : 1;
+	render.step_y = ray.y < 0 ? -1 : 1;
+	render.sideDistX =
+			(ray.x < 0 ? data->player->x - render.map_x : render.map_x + 1.0f - data->player->x) * render.deltaDistX;
+	render.sideDistY =
+			(ray.y < 0 ? data->player->y - render.map_y : render.map_y + 1.0f - data->player->y) * render.deltaDistY;
+	get_wall_dda(data, &render, ray);
+	render.current = current_texture(data, render);
+	if (!(get_line(data, ray, render)))
+		return (0);
+	display_sprite(data, ray);
+	if (ray.i == data->info->width - 1)
+	{
+		//printf("%d\n%d\n%d\n%d\n", data->sprite.west, data->sprite.south, data->sprite.north, data->sprite.est);
+		int sort;
+		sort = 0;
+		sort = tri_sprite(data->sprite.north, data->sprite.est, data->sprite.south, data->sprite.west);
+		data->sprite.west = 0;
+		data->sprite.north = 0;
+		data->sprite.est = 0;
+		data->sprite.south = 0;
+		printf("%d\n", sort);
+	}
+	return (1);
 }

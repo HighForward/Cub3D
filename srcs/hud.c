@@ -1,13 +1,27 @@
 #include "../includes/cub3d.h"
 
+int		degrade_couleur(int color, int x)
+{
+	t_color shade;
+	int j;
+
+	//x = x % 10;
+	//printf("%d\n", x);
+	shade.value = color;
+	shade.rgba.b += x;
+	return (shade.value);
+}
+
 int     display_lifebar(t_data *data)
 {
     int width_lifebar;
     int start;
     int x;
     int temp_start;
-    float percentage;
+	float percentage;
+	int color;
 
+	color = convertRGB(255, 0, 0);
     x = data->info->height - 60;
     start = data->info->width / 3;
     temp_start = start;
@@ -30,7 +44,7 @@ int     display_lifebar(t_data *data)
         start = data->info->width / 3;
         while (start < (width_lifebar + temp_start) - percentage)
         {
-            data->image->img_data[x * data->info->width + start] = convertRGB(255, 0, 0) + percentage / 0.25f;
+            data->image->img_data[x * data->info->width + start] = degrade_couleur(color, start / 10);
             start++;
         }
         x++;

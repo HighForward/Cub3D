@@ -28,9 +28,8 @@ int     bmp_header(int save, int size, t_data *data)
     return (!(write(save, header, 54) < 0));
 }
 
-int	write_data(int file, t_data *data, int step)
+int	write_data(int file, t_data *data)
 {
-    const unsigned char	zero[3] = {0, 0, 0};
     int					x;
     int					y;
     int					color;
@@ -41,10 +40,8 @@ int	write_data(int file, t_data *data, int step)
         x = 0;
         while (x < data->info->width)
         {
-            color = data->image->img_data[x + y * data->info->width];
+            color = data->image->img_data[y * data->info->width + x];
             if (write(file, &color, 3) < 0)
-                return (0);
-            if (step > 0 && write(file, &zero, step) < 0)
                 return (0);
             x++;
         }
@@ -57,10 +54,11 @@ int     save_bmp(t_data *data)
 {
     int save;
     int size;
-    save = open("screen.bmp", O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
-    size = 54 + (3 * (data->info->width + 4) * data->info->height);
+    if (!(save = open("screen.bmp", O_RDWR | O_CREAT, S_IWUSR | S_IRUSR)))
+    	return (return_string(0, "Can't load screen.bmp"));
+    size = 54 + (((int)data->info->width) * (int)data->info->height);
     bmp_header(save, size, data);
-    write_data(save, data, 4);
+    write_data(save, data);
     close(save);
     return (1);
 }
