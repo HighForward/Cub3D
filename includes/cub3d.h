@@ -34,6 +34,7 @@ int     check_info(char *str, t_data *data);
 int     parse_map_info_window(char *str, int *dest1, int *dest2, int start);
 int     fill_textures(t_data *data, t_tex_info *info);
 int     get_texture_C_F(char *str, int i, int *color);
+int		skip_space_virgule(char *str, int *i);
 
 // CREATE IMG AND LOAD TEXTURES
 int     create_image(t_data *data);
@@ -107,8 +108,6 @@ int     bmp_header(int save, int size, t_data *data);
 void	put_int_in_char(unsigned char *begin, int val);
 int     write_data(int file, t_data *data);
 
-
 int		degrade_couleur(int color, int x);
-int tri_sprite(int a, int b, int c, int d);
 
 #endif

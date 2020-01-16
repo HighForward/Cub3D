@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:31:43 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/10 14:20:57 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 13:29:30 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int     fill_textures(t_data *data, t_tex_info *tex_info)
 	int endian;
 
 	if (!(tex_info->data_tex = mlx_xpm_file_to_image(data->mlx_ptr, tex_info->path, &tex_info->img_width, &tex_info->img_height)))
-		return (0);
+		return (return_string(0, "Error\n"));
 	if (!(tex_info->add_tex = (int*)mlx_get_data_addr(tex_info->data_tex, &bpp, &size_line, &endian)))
-		return (0);
+		return (return_string(0, "Error\n"));
 	free(tex_info->path);
 	tex_info->path = NULL;
 	return (1);

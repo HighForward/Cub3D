@@ -44,6 +44,7 @@ int     parse_map_info_window(char *str, int *dest1, int *dest2, int start)
 {
     char *temp;
     int i;
+    int space;
 
     *dest1 = 0;
     *dest2 = 0;
@@ -53,8 +54,8 @@ int     parse_map_info_window(char *str, int *dest1, int *dest2, int start)
         *dest2 = get_value_window(&temp[i], &i);
     else
         return (0);
-    if (temp[i] == ' ')
-        i++;
+    if ((space = skip_space(&temp[i])) > 0)
+		i = i + space;
     else
         return (0);
     if (temp[i] >= '0' && temp[i] <= '9')
@@ -68,8 +69,28 @@ int     parse_map_info_window(char *str, int *dest1, int *dest2, int start)
     *dest2 = *dest2 > 2560 ? 2560 : *dest2;
     *dest1 = *dest1 > 1400 ? 1400 : *dest1;
     *dest2 = *dest2 < *dest1 ? *dest1 : *dest2;
-
     return (1);
+}
+
+int		skip_space_virgule(char *str, int *i)
+{
+	int x;
+	int virgule;
+
+	x = 0;
+	virgule = 0;
+//	printf("%c\n", str[x]);
+	while (str[x] && (str[x] == ' ' || str[x] == ','))
+	{
+		if (str[x] == ',')
+			virgule++;
+		x++;
+	}
+	if (virgule != 1 || x < 1)
+		return (0);
+	(*i) += x;
+//	printf("YOOO\n");
+	return (1);
 }
 
 int     get_texture_C_F(char *str, int i, int *color)
@@ -79,20 +100,19 @@ int     get_texture_C_F(char *str, int i, int *color)
     if (str[i] >= '0' && str[i] <= '9')
     {
         temp_color.rgba.r = get_value_window(&str[i], &i);
-        if (str[i++] == ',')
+        if (skip_space_virgule(&str[i], &i) > 0)
         {
             if (str[i] >= '0' && str[i] <= '9')
             {
             	temp_color.rgba.g = get_value_window(&str[i], &i);
-                if (str[i++] == ',')
+				if (skip_space_virgule(&str[i], &i) > 0)
                 {
                     if (str[i] >= '0' && str[i] <= '9')
                     {
                         temp_color.rgba.b = get_value_window(&str[i], &i);
                         (*color) = temp_color.value;
-                        if (ft_isprint(str[i]))
-                        	return (0);
-                        return (1);
+                        if (!ft_isprint(str[i]))
+                        	return (1);
                     }
                 }
             }

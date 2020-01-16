@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:34 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/10 14:18:48 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 13:26:16 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int     return_error(int value, t_data *data, char *str)
 	if (data->map != NULL)
 		free_entire_map(data->map);
     ft_putstr(str);
-    //system("leaks a.out");
+    system("leaks a.out");
+    exit(1);
     return (value);
 }

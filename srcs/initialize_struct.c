@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 13:57:47 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/09 14:39:37 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:22:33 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void		initialize_struct_texture(t_data *data)
 	data->info->color_floor = 0;
 	data->info->color_cellar = 0;
 	data->player->dead = 0;
-	data->sprite.west = 0;
-	data->sprite.north = 0;
-	data->sprite.est = 0;
-	data->sprite.south = 0;
+	data->sprite.is = 0;
+	data->sprite.last = 0;
 }

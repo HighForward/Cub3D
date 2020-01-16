@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:22 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/14 19:22:53 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 16:35:54 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int display_view(t_player *p, t_data *data)
     t_ray ray;
 
     ray.i = 0;
+    data->sprite.last = 0;
     while (ray.i < data->info->width)
     {
         camera = 2.0f * ray.i / data->info->width - 1.0f;
@@ -62,7 +63,7 @@ void load_line_buffer(t_data *data, t_render render, t_ray ray, int **buffer)
     if (render.side == 1 && ray.y < 0)
         tex.texX = render.current.img_width - tex.texX - 1;
     tex.step = 1.0f * render.current.img_height / render.lineHeight;
-    tex.texPos = (render.drawstart - (data->info->height / 2) + (render.lineHeight / 2)) * tex.step;
+    tex.texPos = (render.drawstart - ((data->info->height / 2)) + (render.lineHeight / 2)) * tex.step;
     y = render.drawstart;
     while (y < render.drawend)
     {
@@ -76,24 +77,23 @@ void load_line_buffer(t_data *data, t_render render, t_ray ray, int **buffer)
 
 void print_lines(t_data *data, t_ray ray, t_render render, int *buffer)
 {
-    int i;
-    int x;
+	int i;
+	int x;
 
-    i = 0;
-    x = 0;
-    while (x < data->info->height)
-    {
-        if (x > render.drawstart && x < render.drawend)
-        {
-            data->image->img_data[x * data->info->width + ray.i] = buffer[i];
-            i++;
-        }
-        else if (x <= render.drawstart)
-            data->image->img_data[x * data->info->width + ray.i] = data->info->color_cellar;
-        else if (x >= render.drawend && x < data->info->height)
-            data->image->img_data[x * data->info->width + ray.i] = data->info->color_floor;
-        x++;
-    }
+	i = 0;
+	x = 0;
+	while (x < data->info->height)
+	{
+		if (x > render.drawstart && x < render.drawend)
+		{
+			data->image->img_data[(x) * data->info->width + ray.i] = buffer[i];
+			i++;
+		} else if (x <= render.drawstart)
+			data->image->img_data[(x) * data->info->width + ray.i] = data->info->color_cellar;
+		else if (x >= render.drawend && x < data->info->height)
+			data->image->img_data[(x) * data->info->width + ray.i] = data->info->color_floor;
+		x++;
+	}
 }
 
 int get_line(t_data *data, t_ray ray, t_render render)
@@ -107,8 +107,8 @@ int get_line(t_data *data, t_ray ray, t_render render)
     render.drawstart = 0;
     render.drawend = 0;
     render.lineHeight = (int) (data->info->height / render.perpWallDist);
-    render.drawstart = (-render.lineHeight / 2 + data->info->height / 2);
-    render.drawend = render.lineHeight / 2 + data->info->height / 2;
+    render.drawstart = (-render.lineHeight / 2 + (data->info->height / 2));
+    render.drawend = (render.lineHeight / 2 + data->info->height / 2);
     if (render.drawstart < 0)
         render.drawstart = 0;
     if (render.drawend >= data->info->height)
@@ -124,34 +124,30 @@ int get_line(t_data *data, t_ray ray, t_render render)
 
 void get_wall_dda(t_data *data, t_render *render, t_ray ray)
 {
+	data->sprite.is = 0;
+
     while (render->hit == 0)
-    {
-        if (render->sideDistX < render->sideDistY)
-        {
-            render->sideDistX = render->sideDistX + render->deltaDistX;
-            render->map_x = render->map_x + render->step_x;
-            render->side = 0;
-        } else
-        {
-            render->sideDistY = render->sideDistY + render->deltaDistY;
-            render->map_y = render->map_y + render->step_y;
-            render->side = 1;
-        }
-        if (data->map[render->map_y][render->map_x] == '1')
-            render->hit = 1;
-        else if (data->map[render->map_y][render->map_x] == '2')
-        {
-            data->sprite.y = render->map_y;
-            data->sprite.x = render->map_x;
-			if (render->side == 1 && render->step_y == 1)
-				data->sprite.south++;
-			if (render->side == 1 && render->step_y == -1)
-				data->sprite.north++;
-			if (render->side == 0 && render->step_x == -1)
-				data->sprite.est++;
-			if (render->side == 0 && render->step_x == 1)
-				data->sprite.west++;
-        }
+	{
+		if (render->sideDistX < render->sideDistY)
+		{
+			render->sideDistX = render->sideDistX + render->deltaDistX;
+			render->map_x = render->map_x + render->step_x;
+			render->side = 0;
+		}
+		else
+		{
+			render->sideDistY = render->sideDistY + render->deltaDistY;
+			render->map_y = render->map_y + render->step_y;
+			render->side = 1;
+		}
+		if (data->map[render->map_y][render->map_x] == '1')
+			render->hit = 1;
+		else if (data->map[render->map_y][render->map_x] == '2')
+		{
+			data->sprite.x = render->map_x;
+			data->sprite.y = render->map_y;
+			//data->sprite.Perp = render->perpWallDist;
+		}
         else if (data->map[render->map_y][render->map_x] == 'D' || data->map[render->map_y][render->map_x] == 'H')
             handle_secret_door(data, render, ray);
         render->blockdist++;
@@ -160,20 +156,9 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
         render->perpWallDist = (render->map_x - data->player->x + (1 - render->step_x) / 2) / ray.x;
     else
         render->perpWallDist = (render->map_y - data->player->y + (1 - render->step_y) / 2) / ray.y;
+    data->sprite.Perp = render->perpWallDist;
 }
 
-int tri_sprite(int a, int b, int c, int d)
-{
-	if (a > b && a > c && a > d)
-		return (1);
-	if (b > a && b > c && b > d)
-		return (2);
-	if (c > a && c > b && c > d)
-		return (3);
-	if (d > a && d > b && d > c)
-		return (4);
-	return (0);
-}
 int get_wall(t_data *data, t_ray ray)
 {
 	t_render render;
@@ -196,17 +181,5 @@ int get_wall(t_data *data, t_ray ray)
 	if (!(get_line(data, ray, render)))
 		return (0);
 	display_sprite(data, ray);
-	if (ray.i == data->info->width - 1)
-	{
-		//printf("%d\n%d\n%d\n%d\n", data->sprite.west, data->sprite.south, data->sprite.north, data->sprite.est);
-		int sort;
-		sort = 0;
-		sort = tri_sprite(data->sprite.north, data->sprite.est, data->sprite.south, data->sprite.west);
-		data->sprite.west = 0;
-		data->sprite.north = 0;
-		data->sprite.est = 0;
-		data->sprite.south = 0;
-		printf("%d\n", sort);
-	}
 	return (1);
 }

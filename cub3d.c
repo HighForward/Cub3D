@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:41 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/14 19:06:22 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 10:26:04 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ int main(int argc, char **argv)
     mlx_hook(data->win_ptr, 17, 1L << 0, close_red_button, (void*)data);
     mlx_hook(data->win_ptr, 2, 1L << 0, get_event, (void*)data);
     mlx_loop(data->mlx_ptr);
-	system("leaks a.out");
 }

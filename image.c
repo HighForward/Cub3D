@@ -1,14 +1,6 @@
 #include "includes/cub3d.h"
 
-void	display_sprite(t_data *data, t_ray ray)
-{
-	int i;
-
-	i = 0;
-//	printf("CC\n");
-}
-
-/*void    display_sprite(t_data *data, t_ray ray)
+void    display_sprite(t_data *data, t_ray ray)
 {
     int dist;
     double spriteX;
@@ -59,16 +51,16 @@ void	display_sprite(t_data *data, t_ray ray)
     if (drawEndX >= data->info->width)
         drawEndX = data->info->width - 1;
     stripe = ray.i;
-    texX = (int)((64 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->tex->sprite.img_width / spriteWidth) / 64);
-    if (transformY > 0 && stripe > 0 && stripe < data->info->width && transformY <= data->sprite.Dist)
+    texX = (int)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->tex->sprite.img_width / spriteWidth) / 256);
+    if (transformY > 0 && stripe > 0 && stripe < data->info->width && transformY <= data->sprite.Perp)
     {
         i = drawStartY;
         while (i < drawEndY)
         {
-            d = (i) * 128 - data->info->height * 64 + spriteHeight * 64;
-            texY = ((d * data->tex->sprite.img_height) / spriteHeight) / 128;
+            d = (i) * 256 - data->info->height * 128 + spriteHeight * 128;
+            texY = ((d * data->tex->sprite.img_height) / spriteHeight) / 256;
             color = data->tex->sprite.add_tex[data->tex->sprite.img_width * texY + texX];
-            if (texX < 0 || texX > 64)
+            if (texX < 0 || texX > 31)
             {
                 texX = 0;
                 texY = 0;
@@ -78,4 +70,4 @@ void	display_sprite(t_data *data, t_ray ray)
             i++;
         }
     }
-}*/
+}

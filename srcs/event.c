@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:16 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/14 19:03:17 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 13:22:53 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int display(t_data *data, int key)
 {
 	if (display_view(data->player, data) == 0)
 		return (0);
-	display_hud(data);
+	//display_hud(data);
 	print_map(data);
 	display_lifebar(data);
 	display_cross(data);
@@ -41,16 +41,7 @@ int     get_event(int key, t_data *data)
     if (key == 2)
         move_side(data, data->player->move);
     if (key == 53)
-	{
-    	free(data->player);
-    	free(data->info);
-    	free(data->image);
-    	free(data->tex);
-    	free_entire_map(data->map);
-    	free(data);
-		system("leaks a.out");
-		exit(1);
-	}
+    	return (return_error(1, data, "Game close successfully\n"));
     leave_secret_door(data);
     data->secret_key = key == 14 ? 1 : 0;
     if (display(data, key) == 0)

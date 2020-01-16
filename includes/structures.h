@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:14:07 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/10 11:39:35 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:22:33 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ typedef struct 	s_sprite
 {
 	int x;
 	int y;
-	int north;
-	int south;
-	int west;
-	int est;
+	float Perp;
+	int is;
+	int last;
 }				t_sprite;
 
 typedef struct  s_line
