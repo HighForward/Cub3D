@@ -6,13 +6,13 @@
 /*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 10:50:27 by mbrignol          #+#    #+#             */
-/*   Updated: 2019/11/19 13:47:56 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:54:31 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/get_next_line.h"
 
-int free_string(char **str, int value)
+int		free_string(char **str, int value)
 {
 	if (*str)
 		free(*str);
@@ -20,11 +20,11 @@ int free_string(char **str, int value)
 	return (value);
 }
 
-int ft_read_fd(int fd, char **str)
+int		ft_read_fd(int fd, char **str)
 {
-	char *buffer;
-	char *temp;
-	int size_read;
+	char	*buffer;
+	char	*temp;
+	int		size_read;
 
 	if (!(buffer = ft_strnew(BUFFER_SIZE)))
 		return (KO);
@@ -48,12 +48,12 @@ int ft_read_fd(int fd, char **str)
 	return (OK);
 }
 
-int ft_split_str(char **str, char **line)
+int		ft_split_str(char **str, char **line)
 {
-	char *temp;
-	char *temp_line;
-	int size_line;
-	int size_rest;
+	char	*temp;
+	char	*temp_line;
+	int		size_line;
+	int		size_rest;
 
 	size_line = 0;
 	while ((*str)[size_line] && (*str)[size_line] != '\n')
@@ -74,14 +74,13 @@ int ft_split_str(char **str, char **line)
 	return (free_string(str, KO));
 }
 
-int get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)
 {
-	static char *str;
-	int cut;
+	static char		*str;
+	int				cut;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (KO);
-
 	if (!ft_is_line(str))
 	{
 		if (ft_read_fd(fd, &str) == KO)
@@ -96,4 +95,3 @@ int get_next_line(int fd, char **line)
 		return (free_string(&str, END));
 	return (OK);
 }
-

@@ -64,24 +64,26 @@ CC			=	gcc
 RM			=	rm -f
 
 .c.o:
-				$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
+				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
 
 $(NAME): ${OBJS}
-				ar rcs $(NAME) ${OBJS}
+				@ar rcs $(NAME) ${OBJS}
+				@echo "\033[1;32m > Building <\033[0m\033[1;31m libft.a\033[0m"
 
 all: $(NAME)
 
 clean:
-				${RM} ${OBJS}
-				${RM} ${BOBJS}
+				@${RM} ${OBJS}
+				@${RM} ${BOBJS}
 
 fclean: clean
-				${RM} $(NAME)
-				${RM} ${BOBJS}
+				@${RM} $(NAME)
+				@${RM} ${BOBJS}
+				@echo "\033[1;31m > Deleting <\033[0m\033[1;35m libft.a\033[0m"
 
 re:	fclean all
 
 bonus: $(NAME) $(BOBJS)
-				ar rcs $(NAME) ${BOBJS}
+				@ar rcs $(NAME) ${BOBJS}
 
 .PHONY: all clean fclean re bonus

@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-void	cut_space(char **line)
+void cut_space(char **line)
 {
 	int i;
 	int space;
@@ -43,7 +43,7 @@ void	cut_space(char **line)
 	(*line) = dup;
 }
 
-int		free_entire_map(char **str)
+int free_entire_map(char **str)
 {
 	int i;
 
@@ -59,7 +59,7 @@ int		free_entire_map(char **str)
 	return (1);
 }
 
-int		fill_temp_map(t_data *data, char *line, char **temp)
+int fill_temp_map(t_data *data, char *line, char **temp)
 {
 	(*temp) = ft_strnew(ft_strlen(data->map[0]) + ft_strlen(line) + 1);
 	(*temp) = ft_strncat((*temp), data->map[0], ft_strlen(data->map[0]));
@@ -74,7 +74,7 @@ int		fill_temp_map(t_data *data, char *line, char **temp)
 	return (1);
 }
 
-int		fill_map(t_data *data, char *line, int *secure)
+int fill_map(t_data *data, char *line, int *secure)
 {
 	int i;
 	char *temp;
@@ -82,7 +82,7 @@ int		fill_map(t_data *data, char *line, int *secure)
 	i = 0;
 	if (data->map == NULL)
 	{
-		data->map = malloc(sizeof(char*) * 2);
+		data->map = malloc(sizeof(char *) * 2);
 		data->map[0] = ft_strdup(line);
 		data->map[1] = NULL;
 		free(line);
@@ -93,34 +93,33 @@ int		fill_map(t_data *data, char *line, int *secure)
 	return (1);
 }
 
-int     fill_full_map(t_data *data)
+int fill_full_map(t_data *data)
 {
-    char *temp;
+	char *temp;
 
-    temp = ft_strnew(ft_strlen(data->map[0]));
-    temp = ft_strcpy(temp, data->map[0]);
-    free_entire_map(data->map);
-    data->map = ft_split(temp, '\n');
-    free(temp);
-    return (1);
+	temp = ft_strnew(ft_strlen(data->map[0]));
+	temp = ft_strcpy(temp, data->map[0]);
+	free_entire_map(data->map);
+	data->map = ft_split(temp, '\n');
+	free(temp);
+	return (1);
 }
 
-int     fill_last_line(t_data *data, char *line, int *secure)
+int fill_last_line(t_data *data, char *line, int *secure)
 {
-    if (line[0] == '1')
-    {
-        if (!is_valid_line(line))
-            return (return_string(0, "Error\nUndetermined object found\n"));
-        fill_map(data, line, secure);
-    }
-    else if (ft_strlen(line) > 0)
-            return (free_and_return(return_string(0, "Error\nNo empty line\n"), line));
-    else
-        free(line);
-    return (1);
+	if (line[0] == '1')
+	{
+		if (!is_valid_line(line))
+			return (return_string(0, "Error\nUndetermined object found\n"));
+		fill_map(data, line, secure);
+	} else if (ft_strlen(line) > 0)
+		return (free_and_return(return_string(0, "Error\nNo empty line\n"), line));
+	else
+		free(line);
+	return (1);
 }
 
-int     check_map(int fd, t_data *data)
+int check_map(int fd, t_data *data)
 {
 	char *line;
 	int secure;
@@ -130,12 +129,11 @@ int     check_map(int fd, t_data *data)
 	{
 		if (line[0] == '1')
 		{
-            cut_space(&line);
+			cut_space(&line);
 			if (!is_valid_line(line))
 				return (return_string(0, "Error\nUndetermined object found\n"));
 			fill_map(data, line, &secure);
-		}
-		else if (!ft_strlen(line) && secure)
+		} else if (!ft_strlen(line) && secure)
 			return (free_and_return(return_string(0, "Error\nEmpty line found\n"), line));
 		else
 		{
@@ -144,12 +142,12 @@ int     check_map(int fd, t_data *data)
 			free(line);
 		}
 	}
-    if (fill_last_line(data, line, &secure) == 0)
-        return (0);
+	if (fill_last_line(data, line, &secure) == 0)
+		return (0);
 	if (data->map == NULL)
 		return (0);
 	if (fill_full_map(data) == 0)
-	    return (0);
+		return (0);
 	if ((get_position(data)) == 0)
 		return (0);
 	if ((map_is_not_close(data)) == 0)

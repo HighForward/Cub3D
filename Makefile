@@ -1,5 +1,3 @@
-NAME		=	cub3d
-
 SRCS		=	./cub3d.c   \
                 ./image.c   \
                 ./srcs/bonus.c \
@@ -17,48 +15,52 @@ SRCS		=	./cub3d.c   \
                 ./srcs/save_bmp.c \
                 ./get_next_line/get_next_line.c \
                 ./get_next_line/get_next_line_utils.c \
-                ./libft/ft_strlen.c                      \
-                ./libft/ft_strncat.c                \
-                ./libft/ft_strnew.c                 \
-                ./libft/ft_strcpy.c                 \
-                ./libft/ft_split.c               \
-                ./libft/ft_strnstr.c                   \
-                ./libft/ft_putstr.c                 \
-                ./libft/ft_strdup.c                 \
-                ./libft/ft_bzero.c                  \
-                ./libft/ft_isprint.c                \
-                ./libft/ft_putchar.c              \
+
+NAME		=	Cub3d
 
 H           =   includes/cub3d.h
 
 OBJS		=	${SRCS:.c=.o}
 
-BOBJS		=	${BONUS_SRCS:.c=.o}
-
 FLAGS		=	-Iincludes
 
 CC			=	gcc
 
-LINK        =   $(MAKE) -C libft/
-
 RM			=	rm -f
 
 .c.o:
-				$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
+				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
 
-$(NAME): ${OBJS} ${H}
-			    $(CC) ${OBJS} -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lm -lbsd -o ${NAME}
+all: ${NAME}
 
-all: $(NAME)
+link:
+				@$(MAKE) -C ./libft/
+
+${NAME}: ${OBJS} ${H} link
+			    @$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
+			    @echo "\033[1;32m > Building <\033[0m\033[1;35m .o files\033[0m"
+			    @echo "\033[1;32m > Building <\033[0m\033[1;36m ${NAME}\033[0m"
+			    @echo "\033[1;32m > Building <\033[0m\033[1;36m Binary successfully create\033[0m"
 
 clean:
-				${RM} ${OBJS}
+				@${RM} ${OBJS}
+				@$(MAKE) clean -C ./libft/
+				@echo "\033[1;31m > Deleting <\033[0m\033[1;35m .o files\033[0m"
 
 fclean: clean
-			    ${RM} $(NAME)
+			    @${RM} $(NAME)
+			    @$(MAKE) fclean -C ./libft/
+			    @echo "\033[1;31m > Deleting <\033[0m\033[1;35m ${NAME} \033[0m"
 
 run: fclean all clean
-			    ${RM} ${OBJS}
+			    @${RM} ${OBJS}
+
+map: ${OBJS} ${H}
+				@$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
+				@${RM} ${OBJS}
+				@echo "\033[1;32m > Building <\033[0m\033[1;36m Launching Game\033[0m"
+				@./Cub3d maps/map.cub
+
 re:	fclean all
 
-.PHONY: all clean fclean re bonus run
+.PHONY: clean fclean re bonus run

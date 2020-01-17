@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-void     get_orientation(t_data *data, float x, float y, float cam_x, float cam_y)
+void get_orientation(t_data *data, float x, float y, float cam_x, float cam_y)
 {
 	data->player->d.x = x;
 	data->player->d.y = y;
@@ -20,7 +20,7 @@ void     get_orientation(t_data *data, float x, float y, float cam_x, float cam_
 	data->player->p.y = cam_y;
 }
 
-int     get_position(t_data *data)
+int get_position(t_data *data)
 {
 	int j;
 	int i;
@@ -63,7 +63,7 @@ int     get_position(t_data *data)
 	return (1);
 }
 
-int     map_is_not_close(t_data *data)
+int map_is_not_close(t_data *data)
 {
 	int i;
 	int j;
@@ -94,18 +94,19 @@ int     map_is_not_close(t_data *data)
 	return (1);
 }
 
-int     is_valid_line(char *s)
+int is_valid_line(char *s)
 {
 	int i;
 
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] != '1' && s[i] != '0' && s[i] != 'D' && s[i] != 'N' && s[i] != 'S' && s[i] != 'E' && s[i] != 'W'  && s[i] != 'H' && s[i] != '2')
-        {
-		    free(s);
-            return (0);
-        }
+		if (s[i] != '1' && s[i] != '0' && s[i] != 'D' && s[i] != 'N' && s[i] != 'S' && s[i] != 'E' && s[i] != 'W' &&
+			s[i] != 'H' && s[i] != '2')
+		{
+			free(s);
+			return (0);
+		}
 		i++;
 	}
 	return (1);

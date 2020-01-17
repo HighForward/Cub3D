@@ -12,19 +12,19 @@
 
 #include "../includes/cub3d.h"
 
-void     obstacle(t_data *data, float move)
+void obstacle(t_data *data, float move)
 {
-	if (data->map[(int)data->player->y][(int)data->player->x] == '1' ||
-		data->map[(int)data->player->y][(int)data->player->x] == 'D' ||
-		data->map[(int)data->player->y][(int)data->player->x] == 'H')
+	if (data->map[(int) data->player->y][(int) data->player->x] == '1' ||
+		data->map[(int) data->player->y][(int) data->player->x] == 'D' ||
+		data->map[(int) data->player->y][(int) data->player->x] == 'H')
 	{
-        data->player->x += -move * data->player->d.x;
-        data->player->y += -move * data->player->d.y;
+		data->player->x += -move * data->player->d.x;
+		data->player->y += -move * data->player->d.y;
 		take_damage(data, 2);
 	}
 }
 
-void    move_side(t_data *data, float move)
+void move_side(t_data *data, float move)
 {
 	if (data->player->view > 0)
 		move = -move;
@@ -35,24 +35,24 @@ void    move_side(t_data *data, float move)
 	rotate_player(data->player, (M_PI / 180) * -90.0f);
 }
 
-void    move_front_back(t_data *data, float move)
+void move_front_back(t_data *data, float move)
 {
-    data->player->x += move * data->player->d.x;
-    data->player->y += move * data->player->d.y;
-    obstacle(data, move);
+	data->player->x += move * data->player->d.x;
+	data->player->y += move * data->player->d.y;
+	obstacle(data, move);
 }
 
-void     direction(t_vector *v, float angle)
+void direction(t_vector *v, float angle)
 {
-    float temp;
+	float temp;
 
-    temp = v->x;
-    v->x = v->x * cos(angle) - v->y * sin(angle);
-    v->y = temp * sin(angle) + v->y * cos(angle);
+	temp = v->x;
+	v->x = v->x * cos(angle) - v->y * sin(angle);
+	v->y = temp * sin(angle) + v->y * cos(angle);
 }
 
-void    rotate_player(t_player *player, float angle)
+void rotate_player(t_player *player, float angle)
 {
-    direction(&player->d, angle);
-    direction(&player->p, angle);
+	direction(&player->d, angle);
+	direction(&player->p, angle);
 }

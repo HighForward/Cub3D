@@ -6,13 +6,13 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 13:57:47 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/16 14:22:33 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:15:39 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void		initialize_struct_texture(t_data *data)
+void initialize_struct_texture(t_data *data)
 {
 	data->map = NULL;
 	data->tex->north.path = NULL;

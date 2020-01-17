@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:14:07 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/16 14:22:33 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:14:31 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct  s_player
 
 typedef struct  s_image
 {
-	char *image;
+	void *image;
 	int *img_data;
 }               t_image;
 
