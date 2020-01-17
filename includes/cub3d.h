@@ -109,5 +109,6 @@ void	put_int_in_char(unsigned char *begin, int val);
 int     write_data(int file, t_data *data);
 
 int		degrade_couleur(int color, int x);
+void    display_dir_map(t_data *data);
 
 #endif

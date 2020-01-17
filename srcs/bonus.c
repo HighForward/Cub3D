@@ -72,7 +72,7 @@ void display_dead_screen(t_data *data, int key)
 		step_y += echY;
 		i++;
 	}
-	if (key == 49)
+	if (key == 49 || key == 32)
 	{
 		data->player->dead = 0;
 		display(data, 0);

@@ -84,6 +84,8 @@ typedef struct  s_player
 	t_vector d;
 	t_vector p;
 	t_spawn_player spawn;
+	float map_x;
+	float map_y;
 }               t_player;
 
 typedef struct  s_image

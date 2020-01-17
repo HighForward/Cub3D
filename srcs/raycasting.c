@@ -18,17 +18,16 @@ int display_view(t_player *p, t_data *data)
 	t_ray ray;
 
 	ray.i = 0;
-	data->sprite.last = 0;
-	while (ray.i < data->info->width)
+    data->sprite.last = 0;
+    while (ray.i < data->info->width)
 	{
-		camera = 2.0f * ray.i / data->info->width - 1.0f;
-		ray.x = data->player->d.x + data->player->p.x * camera;
-		ray.y = data->player->d.y + data->player->p.y * camera;
+        camera = 2.0f * ray.i / data->info->width - 1.0f;
+        ray.x = data->player->d.x + data->player->p.x * camera;
+        ray.y = data->player->d.y + data->player->p.y * camera;
 		if (get_wall(data, ray) == 0)
 			return (0);
-		ray.i++;
-	}
-	return (1);
+        ray.i++;
+    }
 }
 
 t_tex_info current_texture(t_data *data, t_render render)
@@ -179,6 +178,6 @@ int get_wall(t_data *data, t_ray ray)
 	render.current = current_texture(data, render);
 	if (!(get_line(data, ray, render)))
 		return (0);
-	display_sprite(data, ray);
+//	display_sprite(data, ray);
 	return (1);
 }

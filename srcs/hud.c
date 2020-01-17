@@ -110,11 +110,13 @@ void ft_putpixel(char *line, int i, t_data *data)
 		else if (line[index] == 'D')
 			color = convertRGB(170, 170, 170);
 		else if (line[index] == 'H')
-			color = convertRGB(153, 0, 110);
+		{
+            color = convertRGB(153, 0, 110);
+        }
 		else if (line[index] == '2')
 			color = convertRGB(25, 25, 25);
 		else if (index == (int) data->player->x && i == (int) data->player->y)
-			color = convertRGB(255, 255, 255);
+            color = convertRGB(255, 0, 0);
 		else
 			color = convertRGB(255, 0, 0);
 		display_rekt(x, y, color, data);
@@ -133,4 +135,39 @@ void print_map(t_data *data)
 		ft_putpixel(data->map[i], i, data);
 		i++;
 	}
+}
+
+void    display_dir_map(t_data *data)
+{
+    int i;
+    float stepX;
+    float stepY;
+    t_ray ray;
+    float camera;
+    stepX = data->player->d.x;
+    stepY = data->player->d.y;
+    ray.i = 0;
+    while (ray.i < data->info->width)
+    {
+        camera = 2.0f * ray.i / data->info->width - 1.0f;
+        ray.x = data->player->d.x + data->player->p.x * camera;
+        ray.y = data->player->d.y + data->player->p.y * camera;
+
+        i = 0;
+        while (i < ((data->info->width + data->info->height) / 250))
+        {
+            data->image->img_data[(int) ((data->player->y * ((data->info->width + data->info->height) / 250)) + (i * ray.y)) * data->info->width +
+                                  (int) ((data->player->x * ((data->info->width + data->info->height) / 250)) + (i * ray.x))] = convertRGB(0, 255, 255);
+            i++;
+        }
+        ray.i++;
+    }
+
+    while (i < 25)
+    {
+        if (((int) ((data->player->y * ((data->info->width + data->info->height) / 250)) + (i * stepY))) > 0)
+        data->image->img_data[(int) ((data->player->y * ((data->info->width + data->info->height) / 250)) + (i * stepY)) * data->info->width +
+                              (int) ((data->player->x * ((data->info->width + data->info->height) / 250)) + (i * stepX))] = convertRGB(0, 0, 0);
+        i++;
+    }
 }
