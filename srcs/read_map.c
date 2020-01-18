@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:33:36 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/10 15:55:45 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:17:16 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,15 @@ int fill_last_line(t_data *data, char *line, int *secure)
 	return (1);
 }
 
+int map_too_big(t_data *data)
+{
+	if ((size_map(data->map) * ((data->info->width + data->info->height) / 250)) > data->info->height)
+		return (return_string(0, "Error\nMap Height too big\n"));
+	if ((ft_strlen(data->map[0]) * ((data->info->width + data->info->height) / 250)) > data->info->width)
+		return (return_string(0, "Error\nMap Width too big\n"));
+	return (1);
+}
+
 int check_map(int fd, t_data *data)
 {
 	char *line;
@@ -151,6 +160,8 @@ int check_map(int fd, t_data *data)
 	if ((get_position(data)) == 0)
 		return (0);
 	if ((map_is_not_close(data)) == 0)
+		return (0);
+	if ((map_too_big(data)) == 0)
 		return (0);
 	return (1);
 }

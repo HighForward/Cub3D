@@ -38,10 +38,10 @@ void display_sprite(t_data *data, t_ray ray)
 	spriteScreenX = (int) (data->info->width / 2) * (1 + transformX / transformY);
 	spriteHeight = abs((int) (data->info->height / (transformY))) / 1;
 	spriteWidth = abs((int) (data->info->height / (transformY))) / 1;
-	drawStartY = -spriteHeight / 2 + data->info->height / 2 + vMoveScreen;
+	drawStartY = -spriteHeight / 2 + data->info->height / 2;
 	if (drawStartY < 0)
 		drawStartY = 0;
-	drawEndY = spriteHeight / 2 + data->info->height / 2 + vMoveScreen;
+	drawEndY = spriteHeight / 2 + data->info->height / 2;
 	if (drawEndY >= data->info->height)
 		drawEndY = data->info->height - 1;
 	drawStartX = -spriteWidth / 2 + spriteScreenX;
@@ -62,12 +62,11 @@ void display_sprite(t_data *data, t_ray ray)
 			texY = ((d * data->tex->sprite.img_height) / spriteHeight) / 256;
 			color = data->tex->sprite.add_tex[data->tex->sprite.img_width * texY + texX];
 			if (texX < 0 || texX > 31)
-			{
-				texX = 0;
-				texY = 0;
-			}
+				return;
 			if (color != convertRGB(0, 0, 0) && texX > 0)
 				data->image->img_data[i * data->info->width + stripe] = color;
+			else
+				data->image->img_data[i * data->info->width + stripe] = convertRGB(150, 150 ,150);
 			i++;
 		}
 	}

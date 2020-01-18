@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:14:07 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/17 17:14:31 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/18 11:58:10 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ typedef struct  s_player
 	t_vector d;
 	t_vector p;
 	t_spawn_player spawn;
-	float map_x;
-	float map_y;
 }               t_player;
 
 typedef struct  s_image

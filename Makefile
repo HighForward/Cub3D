@@ -37,7 +37,7 @@ link:
 				@$(MAKE) -C ./libft/
 
 ${NAME}: ${OBJS} ${H} link
-			    @$(CC) ${OBJS} -L ./libft -lft -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lm -lbsd -o ${NAME}
+			    @$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
 			    @echo "\033[1;32m > Building <\033[0m\033[1;35m .o files\033[0m"
 			    @echo "\033[1;32m > Building <\033[0m\033[1;36m ${NAME}\033[0m"
 			    @echo "\033[1;32m > Building <\033[0m\033[1;36m Binary successfully create\033[0m"

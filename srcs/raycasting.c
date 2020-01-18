@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:07:22 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/16 16:35:54 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/18 15:12:41 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int display_view(t_player *p, t_data *data)
 			return (0);
         ray.i++;
     }
+    return (1);
 }
 
 t_tex_info current_texture(t_data *data, t_render render)
@@ -145,7 +146,7 @@ void get_wall_dda(t_data *data, t_render *render, t_ray ray)
 		{
 			data->sprite.x = render->map_x;
 			data->sprite.y = render->map_y;
-			//data->sprite.Perp = render->perpWallDist;
+			data->sprite.Perp = render->perpWallDist;
 		} else if (data->map[render->map_y][render->map_x] == 'D' || data->map[render->map_y][render->map_x] == 'H')
 			handle_secret_door(data, render, ray);
 		render->blockdist++;
@@ -178,6 +179,6 @@ int get_wall(t_data *data, t_ray ray)
 	render.current = current_texture(data, render);
 	if (!(get_line(data, ray, render)))
 		return (0);
-//	display_sprite(data, ray);
+	display_sprite(data, ray);
 	return (1);
 }

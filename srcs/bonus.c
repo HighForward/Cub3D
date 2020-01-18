@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:04:46 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/14 14:56:12 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/18 11:58:09 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void display_dead_screen(t_data *data, int key)
 		step_y += echY;
 		i++;
 	}
-	if (key == 49 || key == 32)
+	if (key == 49)
 	{
 		data->player->dead = 0;
 		display(data, 0);
