@@ -1,5 +1,7 @@
 SRCS		=	./cub3d.c   \
+				./srcs/extention.c \
                 ./image.c   \
+                ./srcs/secret_door.c \
                 ./srcs/bonus.c \
                 ./srcs/display_cross.c \
                 ./srcs/error.c \
@@ -11,6 +13,7 @@ SRCS		=	./cub3d.c   \
                 ./srcs/parse_info.c \
                 ./srcs/parse_info_map.c \
                 ./srcs/raycasting.c \
+                ./srcs/data_raycasting.c \
                 ./srcs/read_map.c \
                 ./srcs/save_bmp.c \
                 ./get_next_line/get_next_line.c \

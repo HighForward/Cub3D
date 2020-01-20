@@ -51,8 +51,12 @@ void display_sprite(t_data *data, t_ray ray)
 	if (drawEndX >= data->info->width)
 		drawEndX = data->info->width - 1;
 	stripe = ray.i;
+//	printf("%d\n", spriteWidth);
+	if (spriteWidth == 0)
+		spriteWidth = 1;
 	texX = (int) ((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->tex->sprite.img_width / spriteWidth) /
 				  256);
+//	printf("%d\n", __LINE__);
 	if (transformY > 0 && stripe > 0 && stripe < data->info->width && transformY <= data->sprite.Perp)
 	{
 		i = drawStartY;
@@ -63,10 +67,8 @@ void display_sprite(t_data *data, t_ray ray)
 			color = data->tex->sprite.add_tex[data->tex->sprite.img_width * texY + texX];
 			if (texX < 0 || texX > 31)
 				return;
-			if (color != convertRGB(0, 0, 0) && texX > 0)
+			if (color != convertrgb(0, 0, 0) && texX > 0)
 				data->image->img_data[i * data->info->width + stripe] = color;
-			else
-				data->image->img_data[i * data->info->width + stripe] = convertRGB(150, 150 ,150);
 			i++;
 		}
 	}

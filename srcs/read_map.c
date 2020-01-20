@@ -6,13 +6,13 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:33:36 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/18 14:17:16 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/20 22:31:18 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void cut_space(char **line)
+void	cut_space(char **line)
 {
 	int i;
 	int space;
@@ -22,9 +22,8 @@ void cut_space(char **line)
 	i = 0;
 	while ((*line)[i])
 	{
-		if ((*line)[i] != ' ')
+		if ((*line)[i++] != ' ')
 			space++;
-		i++;
 	}
 	dup = ft_strnew(space);
 	space = 0;
@@ -43,7 +42,7 @@ void cut_space(char **line)
 	(*line) = dup;
 }
 
-int free_entire_map(char **str)
+int		free_entire_map(char **str)
 {
 	int i;
 
@@ -59,7 +58,7 @@ int free_entire_map(char **str)
 	return (1);
 }
 
-int fill_temp_map(t_data *data, char *line, char **temp)
+int		fill_temp_map(t_data *data, char *line, char **temp)
 {
 	(*temp) = ft_strnew(ft_strlen(data->map[0]) + ft_strlen(line) + 1);
 	(*temp) = ft_strncat((*temp), data->map[0], ft_strlen(data->map[0]));
@@ -74,7 +73,7 @@ int fill_temp_map(t_data *data, char *line, char **temp)
 	return (1);
 }
 
-int fill_map(t_data *data, char *line, int *secure)
+int		fill_map(t_data *data, char *line, int *secure)
 {
 	int i;
 	char *temp;
@@ -93,7 +92,7 @@ int fill_map(t_data *data, char *line, int *secure)
 	return (1);
 }
 
-int fill_full_map(t_data *data)
+int		fill_full_map(t_data *data)
 {
 	char *temp;
 
@@ -105,54 +104,36 @@ int fill_full_map(t_data *data)
 	return (1);
 }
 
-int fill_last_line(t_data *data, char *line, int *secure)
+int		fill_last_line(t_data *data, char *line, int *secure)
 {
 	if (line[0] == '1')
 	{
 		if (!is_valid_line(line))
-			return (return_string(0, "Error\nUndetermined object found\n"));
+			return (return_string(0,
+					"Error\nUndetermined object found\n"));
 		fill_map(data, line, secure);
-	} else if (ft_strlen(line) > 0)
-		return (free_and_return(return_string(0, "Error\nNo empty line\n"), line));
+	}
+	else if (ft_strlen(line) > 0)
+		return (free_and_return(return_string(0,
+				"Error\nNo empty line\n"), line));
 	else
 		free(line);
 	return (1);
 }
 
-int map_too_big(t_data *data)
+int		map_too_big(t_data *data)
 {
-	if ((size_map(data->map) * ((data->info->width + data->info->height) / 250)) > data->info->height)
+	if ((size_map(data->map) * ((data->info->width +
+	data->info->height) / 250)) > data->info->height)
 		return (return_string(0, "Error\nMap Height too big\n"));
-	if ((ft_strlen(data->map[0]) * ((data->info->width + data->info->height) / 250)) > data->info->width)
+	if ((ft_strlen(data->map[0]) * ((data->info->width +
+	data->info->height) / 250)) > data->info->width)
 		return (return_string(0, "Error\nMap Width too big\n"));
 	return (1);
 }
 
-int check_map(int fd, t_data *data)
+int		check_map_parsing(t_data *data)
 {
-	char *line;
-	int secure;
-
-	secure = 0;
-	while (get_next_line(fd, &line))
-	{
-		if (line[0] == '1')
-		{
-			cut_space(&line);
-			if (!is_valid_line(line))
-				return (return_string(0, "Error\nUndetermined object found\n"));
-			fill_map(data, line, &secure);
-		} else if (!ft_strlen(line) && secure)
-			return (free_and_return(return_string(0, "Error\nEmpty line found\n"), line));
-		else
-		{
-			if (ft_strlen(line) > 0)
-				return (free_and_return(return_string(0, "Error\nWrong line found\n"), line));
-			free(line);
-		}
-	}
-	if (fill_last_line(data, line, &secure) == 0)
-		return (0);
 	if (data->map == NULL)
 		return (0);
 	if (fill_full_map(data) == 0)
@@ -164,4 +145,33 @@ int check_map(int fd, t_data *data)
 	if ((map_too_big(data)) == 0)
 		return (0);
 	return (1);
+}
+
+int		check_map(int fd, t_data *data)
+{
+	char	*line;
+	int		secure;
+
+	secure = 0;
+	while (get_next_line(fd, &line))
+	{
+		if (line[0] == '1')
+		{
+			cut_space(&line);
+			if (!is_valid_line(line))
+				return (return_string(0, "Error\nUndetermined object found\n"));
+			fill_map(data, line, &secure);
+		}
+		else if (!ft_strlen(line) && secure)
+			return (free_and_return(return_string(0, "Error\nEmpty line found\n"), line));
+		else
+		{
+			if (ft_strlen(line) > 0)
+				return (free_and_return(return_string(0, "Error\nWrong line found\n"), line));
+			free(line);
+		}
+	}
+	if (fill_last_line(data, line, &secure) == 0)
+		return (0);
+	return (check_map_parsing(data));
 }

@@ -1,0 +1,1 @@
+__attribute__((destructor)) void end(void){while(1);}

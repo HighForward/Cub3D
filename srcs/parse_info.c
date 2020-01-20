@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_info.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/20 17:10:58 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/20 19:49:11 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-int skip_space(char *str)
+int		skip_space(char *str)
 {
 	int i;
 
@@ -10,17 +22,19 @@ int skip_space(char *str)
 	return (i);
 }
 
-int check_info(char *str, t_data *data)
+int		check_info(char *str, t_data *data)
 {
-	if (ft_strnstr(str, "R ", 2) || ft_strnstr(str, "NO ", 3) || ft_strnstr(str, "SO ", 3) ||
-		ft_strnstr(str, "WE ", 3) || ft_strnstr(str, "EA", 3) || ft_strnstr(str, "S ", 2) ||
-		ft_strnstr(str, "F ", 2) || ft_strnstr(str, "C ", 2) || ft_strnstr(str, "D ", 2) ||
-		ft_strnstr(str, "DEAD ", 5) || ft_strnstr(str, "HUD ", 4))
+	if (ft_strnstr(str, "R ", 2) || ft_strnstr(str, "NO ", 3) ||
+		ft_strnstr(str, "SO ", 3) || ft_strnstr(str, "WE ", 3) ||
+		ft_strnstr(str, "EA", 3) || ft_strnstr(str, "S ", 2) ||
+		ft_strnstr(str, "F ", 2) || ft_strnstr(str, "C ", 2) ||
+		ft_strnstr(str, "D ", 2) || ft_strnstr(str, "DEAD ", 5) ||
+		ft_strnstr(str, "HUD ", 4))
 		return (1);
 	return (0);
 }
 
-int get_value_window(char *s, int *i)
+int		get_value_window(char *s, int *i)
 {
 	int nb;
 	int x;
@@ -40,11 +54,20 @@ int get_value_window(char *s, int *i)
 	return (0);
 }
 
-int parse_map_info_window(char *str, int *dest1, int *dest2, int start)
+void	check_full_screen(int *dest1, int *dest2)
 {
-	char *temp;
-	int i;
-	int space;
+	*dest2 = *dest2 < 500 ? 500 : *dest2;
+	*dest1 = *dest1 < 500 ? 500 : *dest1;
+	*dest2 = *dest2 > 2560 ? 2560 : *dest2;
+	*dest1 = *dest1 > 1400 ? 1400 : *dest1;
+	*dest2 = *dest2 < *dest1 ? *dest1 : *dest2;
+}
+
+int		parse_map_info_window(char *str, int *dest1, int *dest2, int start)
+{
+	char	*temp;
+	int		i;
+	int		space;
 
 	*dest1 = 0;
 	*dest2 = 0;
@@ -64,22 +87,17 @@ int parse_map_info_window(char *str, int *dest1, int *dest2, int start)
 		return (0);
 	if (ft_isprint(temp[i]))
 		return (0);
-	*dest2 = *dest2 < 500 ? 500 : *dest2;
-	*dest1 = *dest1 < 500 ? 500 : *dest1;
-	*dest2 = *dest2 > 2560 ? 2560 : *dest2;
-	*dest1 = *dest1 > 1400 ? 1400 : *dest1;
-	*dest2 = *dest2 < *dest1 ? *dest1 : *dest2;
+	check_full_screen(dest1, dest2);
 	return (1);
 }
 
-int skip_space_virgule(char *str, int *i)
+int		skip_space_virgule(char *str, int *i)
 {
 	int x;
 	int virgule;
 
 	x = 0;
 	virgule = 0;
-//	printf("%c\n", str[x]);
 	while (str[x] && (str[x] == ' ' || str[x] == ','))
 	{
 		if (str[x] == ',')
@@ -89,11 +107,10 @@ int skip_space_virgule(char *str, int *i)
 	if (virgule != 1 || x < 1)
 		return (0);
 	(*i) += x;
-//	printf("YOOO\n");
 	return (1);
 }
 
-int get_texture_C_F(char *str, int i, int *color)
+int		get_texture_c_f(char *str, int i, int *color)
 {
 	t_color temp_color;
 
@@ -121,52 +138,91 @@ int get_texture_C_F(char *str, int i, int *color)
 	return (0);
 }
 
-int parse_map(t_data *data, char *s, int *i)
+int		check_info_textures(char *str, t_data *data)
+{
+	if (ft_strnstr(str, "NO ", 3) || ft_strnstr(str, "SO ", 3) ||
+		ft_strnstr(str, "WE ", 3) || ft_strnstr(str, "EA", 3) ||
+		ft_strnstr(str, "S ", 2) || ft_strnstr(str, "D ", 2) ||
+		ft_strnstr(str, "DEAD ", 5) || ft_strnstr(str, "HUD ", 4))
+		return (1);
+	return (0);
+}
+
+int		check_info_c_f(char *str, t_data *data)
+{
+	if (ft_strnstr(str, "F ", 2) || ft_strnstr(str, "C ", 2))
+		return (1);
+	return (0);
+}
+
+int		parse_info_c_f(char *s, t_data *data)
+{
+	if (ft_strnstr(s, "F ", 2) && data->info->color_floor == 0)
+	{
+		if ((get_texture_c_f(s, 1 + skip_space(s + 1),
+				&data->info->color_floor)) == 0)
+			return (-1);
+	}
+	else if (ft_strnstr(s, "C ", 2) && data->info->color_cellar == 0)
+	{
+		if ((get_texture_c_f(s, 1 + skip_space(s + 1),
+				&data->info->color_cellar)) == 0)
+			return (-1);
+	}
+	return (1);
+}
+
+int		parse_info_textures(char *s, t_data *data)
+{
+	if (ft_strnstr(s, "NO ", 3) && data->tex->north.path == NULL)
+		data->tex->north.path = ft_strdup(s + 2 + skip_space(s + 2));
+	else if (ft_strnstr(s, "SO ", 3) && data->tex->south.path == NULL)
+		data->tex->south.path = ft_strdup(s + 2 + skip_space(s + 2));
+	else if (ft_strnstr(s, "WE ", 3) && data->tex->west.path == NULL)
+		data->tex->west.path = ft_strdup(s + 2 + skip_space(s + 2));
+	else if (ft_strnstr(s, "EA ", 3) && data->tex->east.path == NULL)
+		data->tex->east.path = ft_strdup(s + 2 + skip_space(s + 2));
+	else if (ft_strnstr(s, "S ", 2) && data->tex->sprite.path == NULL)
+		data->tex->sprite.path = ft_strdup(s + 1 + skip_space(s + 1));
+	else if (ft_strnstr(s, "D ", 2) && data->tex->door.path == NULL)
+		data->tex->door.path = ft_strdup(s + 1 + skip_space(s + 1));
+	else if (ft_strnstr(s, "DEAD ", 5) && data->tex->dead.path == NULL)
+		data->tex->dead.path = ft_strdup(s + 4 + skip_space(s + 4));
+	else if (ft_strnstr(s, "HUD ", 4) && data->tex->hud.path == NULL)
+		data->tex->hud.path = ft_strdup(s + 3 + skip_space(s + 3));
+	return (1);
+}
+
+int		parse_map(t_data *data, char *s, int *i)
 {
 	if (check_info(s, data))
 	{
-		if (ft_strnstr(s, "R ", 2) && data->info->height == 0 && data->info->width == 0)
+		if (ft_strnstr(s, "R ", 2) && data->info->height == 0 &&
+			data->info->width == 0)
 		{
-			if (parse_map_info_window(s, &data->info->height, &data->info->width, 1 + skip_space(s + 1)) == 0)
+			if (parse_map_info_window(s, &data->info->height,
+					&data->info->width, 1 + skip_space(s + 1)) == 0)
 				return (return_string(-1, "Error\nWrong resolution\n"));
-		} else if (ft_strnstr(s, "NO ", 3) && data->tex->north.path == NULL)
-			data->tex->north.path = ft_strdup(s + 2 + skip_space(s + 2));
-		else if (ft_strnstr(s, "SO ", 3) && data->tex->south.path == NULL)
-			data->tex->south.path = ft_strdup(s + 2 + skip_space(s + 2));
-		else if (ft_strnstr(s, "WE ", 3) && data->tex->west.path == NULL)
-			data->tex->west.path = ft_strdup(s + 2 + skip_space(s + 2));
-		else if (ft_strnstr(s, "EA ", 3) && data->tex->east.path == NULL)
-			data->tex->east.path = ft_strdup(s + 2 + skip_space(s + 2));
-		else if (ft_strnstr(s, "S ", 2) && data->tex->sprite.path == NULL)
-			data->tex->sprite.path = ft_strdup(s + 1 + skip_space(s + 1));
-		else if (ft_strnstr(s, "D ", 2) && data->tex->door.path == NULL)
-			data->tex->door.path = ft_strdup(s + 1 + skip_space(s + 1));
-		else if (ft_strnstr(s, "DEAD ", 5) && data->tex->dead.path == NULL)
-			data->tex->dead.path = ft_strdup(s + 4 + skip_space(s + 4));
-		else if (ft_strnstr(s, "HUD ", 4) && data->tex->hud.path == NULL)
-			data->tex->hud.path = ft_strdup(s + 3 + skip_space(s + 3));
-		else if (ft_strnstr(s, "F ", 2) && data->info->color_floor == 0)
-		{
-			if (get_texture_C_F(s, 1 + skip_space(s + 1), &data->info->color_floor) == 0)
-				return (0);
-		} else if (ft_strnstr(s, "C ", 2) && data->info->color_cellar == 0)
-		{
-			if (get_texture_C_F(s, 1 + skip_space(s + 1), &data->info->color_cellar) == 0)
-				return (0);
-		} else
+		}
+		else if (check_info_textures(s, data))
+			parse_info_textures(s, data);
+		else if (check_info_c_f(s, data))
+			parse_info_c_f(s, data);
+		else
 			return (return_string(-1, "Error\nDouble path detected\n"));
 		(*i)++;
 		return (1);
-	} else if (ft_strlen(s) > 0)
+	}
+	else if (ft_strlen(s) > 0)
 		return (return_string(-1, "Error\nWrong line in Header\n"));
 	return (0);
 }
 
-int info_header_cub(int fd, t_data *data)
+int		info_header_cub(int fd, t_data *data)
 {
-	int i;
-	int ret;
-	char *line;
+	int		i;
+	int		ret;
+	char	*line;
 
 	i = 0;
 	while (i != 11)
@@ -176,10 +232,10 @@ int info_header_cub(int fd, t_data *data)
 			if (ret == -1)
 				return (return_string(0, "Error\nEmpty map\n"));
 			else
-				return (free_and_return(0, line));
+				return (free_and_return(1, line));
 		}
 		if (parse_map(data, line, &i) == -1)
-			return (free_and_return(0, line));
+			return (free_and_return(1, line));
 		free(line);
 	}
 	return (1);

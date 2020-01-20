@@ -72,11 +72,11 @@ int display_cross_circle(int x, int y, t_data *data, int color)
 
 int display_cross(t_data *data)
 {
-	display_cross_circle(0, 5, data, convertRGB(255, 255, 255));
-	display_cross_circle(10, 5, data, convertRGB(255, 255, 255));
-	display_cross_circle(0, 6, data, convertRGB(0, 0, 0));
-	display_cross_circle(0, 4, data, convertRGB(0, 0, 0));
-	display_cross_circle(0, 1, data, convertRGB(0, 0, 0));
-	display_cross_around(data, convertRGB(255, 255, 0));
+	display_cross_circle(0, 5, data, convertrgb(255, 255, 255));
+	display_cross_circle(10, 5, data, convertrgb(255, 255, 255));
+	display_cross_circle(0, 6, data, convertrgb(0, 0, 0));
+	display_cross_circle(0, 4, data, convertrgb(0, 0, 0));
+	display_cross_circle(0, 1, data, convertrgb(0, 0, 0));
+	display_cross_around(data, convertrgb(255, 255, 0));
 	return (1);
 }

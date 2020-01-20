@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:14:07 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/18 11:58:10 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:10:46 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef struct 	s_sprite
 	int is;
 	int last;
 }				t_sprite;
+
+typedef struct s_index
+{
+	int i;
+	int j;
+}				t_index;
 
 typedef struct  s_line
 {
