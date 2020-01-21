@@ -15,11 +15,11 @@
 int		handle_args(t_data *data, char **argv, int argc)
 {
 	if (argc < 2 || argc > 3)
-		return (return_string(0, "Bad arguments\n"));
+		return (return_string(0, "Error\n"));
 	if (argc == 3 && ft_strnstr(argv[2], "-save", 5))
 		data->save = 1;
 	else if (argc == 3)
-		return (return_string(0, "Undefinded parameter\n"));
+		return (return_string(0, "Error\nUndefined parameter\n"));
 	return (1);
 }
 

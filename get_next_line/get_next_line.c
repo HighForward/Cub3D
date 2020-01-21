@@ -6,7 +6,7 @@
 /*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 10:50:27 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/18 11:58:10 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/21 10:36:34 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ int		free_string(char **str, int value)
 	return (value);
 }
 
+int		free_buffer(char *buffer, int value)
+{
+	free(buffer);
+	return (value);
+}
+
 int		ft_read_fd(int fd, char **str)
 {
 	char	*buffer;
@@ -28,11 +34,11 @@ int		ft_read_fd(int fd, char **str)
 
 	if (!(buffer = ft_strnew(BUFFER_SIZE)))
 		return (KO);
-	if ((size_read = read(fd, buffer, BUFFER_SIZE)) <= 0)
-	{
-		free(buffer);
-		return (size_read);
-	}
+	size_read = read(fd, buffer, BUFFER_SIZE);
+	if (size_read <= 0)
+		return (free_buffer(buffer, size_read));
+	if (buffer[0] == 0)
+		return (free_buffer(buffer, 0));
 	buffer[size_read] = '\0';
 	if (!(temp = ft_strnew(ft_strlen(*str) + size_read)))
 		return (KO);

@@ -1,34 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   save_bmp.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/21 08:40:00 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/21 08:41:14 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-void put_int_in_char(unsigned char *begin, int val)
+void	put_int_in_char(unsigned char *begin, int val)
 {
-	begin[0] = (unsigned char) (val);
-	begin[1] = (unsigned char) (val >> 8);
-	begin[2] = (unsigned char) (val >> 16);
-	begin[3] = (unsigned char) (val >> 24);
+	begin[0] = (unsigned char)(val);
+	begin[1] = (unsigned char)(val >> 8);
+	begin[2] = (unsigned char)(val >> 16);
+	begin[3] = (unsigned char)(val >> 24);
 }
 
-int bmp_header(int save, int size, t_data *data)
+int		bmp_header(int save, int size, t_data *data)
 {
-	int index;
-	unsigned char header[54];
+	int				index;
+	unsigned char	header[54];
 
 	index = 0;
 	while (index < 54)
-		header[index++] = (unsigned char) (0);
-	header[0] = (unsigned char) ('B');
-	header[1] = (unsigned char) ('M');
+		header[index++] = (unsigned char)(0);
+	header[0] = (unsigned char)('B');
+	header[1] = (unsigned char)('M');
 	put_int_in_char(header + 2, size);
-	header[10] = (unsigned char) (54);
-	header[14] = (unsigned char) (40);
+	header[10] = (unsigned char)('6');
+	header[14] = (unsigned char)('(');
 	put_int_in_char(header + 18, data->info->width);
 	put_int_in_char(header + 22, data->info->height);
-	header[27] = (unsigned char) (1);
-	header[28] = (unsigned char) (24);
+	header[27] = (unsigned char)(1);
+	header[28] = (unsigned char)(24);
 	return (!(write(save, header, 54) < 0));
 }
 
-int write_data(int file, t_data *data)
+int		write_data(int file, t_data *data)
 {
 	int x;
 	int y;
@@ -50,13 +62,14 @@ int write_data(int file, t_data *data)
 	return (1);
 }
 
-int save_bmp(t_data *data)
+int		save_bmp(t_data *data)
 {
 	int save;
 	int size;
+
 	if (!(save = open("screen.bmp", O_RDWR | O_CREAT, S_IWUSR | S_IRUSR)))
 		return (return_string(0, "Can't load screen.bmp"));
-	size = 54 + (((int) data->info->width) * (int) data->info->height);
+	size = 54 + (((int)data->info->width) * (int)data->info->height);
 	bmp_header(save, size, data);
 	write_data(save, data);
 	close(save);
