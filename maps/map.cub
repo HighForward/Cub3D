@@ -1,13 +1,13 @@
-R  1200 800
+R 1200 800
 NO textures/1.xpm
 SO textures/2.xpm
 WE textures/3.xpm
 EA textures/4.xpm
-S  textures/sprite2.xpm
-D  textures/bh_door.xpm
+S textures/sprite2.xpm
+D textures/bh_door.xpm
 HUD textures/hud.xpm
 DEAD textures/deadscreen.xpm
-F  3,180,0
+F 3,180,0
 C 31,119,255
 
 11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111

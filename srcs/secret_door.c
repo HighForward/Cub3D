@@ -20,7 +20,7 @@ void	handle_secret_door(t_data *data, t_render *render, t_ray ray)
 		render->secret_door = 2;
 	if (data->secret_key == 1 &&
 		(data->map[render->map_y][render->map_x] == 'D' ||
-		 data->map[render->map_y][render->map_x] == 'H') &&
+		data->map[render->map_y][render->map_x] == 'H') &&
 		ray.i == data->info->width / 2 && render->blockdist < 3)
 	{
 		if (data->map[render->map_y][render->map_x] == 'D')

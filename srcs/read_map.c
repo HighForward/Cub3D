@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 08:33:36 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/20 22:31:18 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:25:52 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	cut_space(char **line)
 {
-	int i;
-	int space;
-	char *dup;
+	int		i;
+	int		space;
+	char	*dup;
 
 	space = 0;
 	i = 0;
@@ -30,12 +30,11 @@ void	cut_space(char **line)
 	i = 0;
 	while ((*line)[i])
 	{
-		if ((*line)[i] != ' ')
+		if ((*line)[i++] != ' ')
 		{
-			dup[space] = (*line)[i];
+			dup[space] = (*line)[i - 1];
 			space++;
 		}
-		i++;
 	}
 	dup[space] = '\0';
 	free((*line));
@@ -75,8 +74,8 @@ int		fill_temp_map(t_data *data, char *line, char **temp)
 
 int		fill_map(t_data *data, char *line, int *secure)
 {
-	int i;
-	char *temp;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	if (data->map == NULL)
@@ -109,13 +108,14 @@ int		fill_last_line(t_data *data, char *line, int *secure)
 	if (line[0] == '1')
 	{
 		if (!is_valid_line(line))
-			return (return_string(0,
-					"Error\nUndetermined object found\n"));
+			return (return_string(0, "Error\nUndetermined object found\n"));
 		fill_map(data, line, secure);
 	}
 	else if (ft_strlen(line) > 0)
+	{
 		return (free_and_return(return_string(0,
 				"Error\nNo empty line\n"), line));
+	}
 	else
 		free(line);
 	return (1);
@@ -159,15 +159,15 @@ int		check_map(int fd, t_data *data)
 		{
 			cut_space(&line);
 			if (!is_valid_line(line))
-				return (return_string(0, "Error\nUndetermined object found\n"));
+				return (return_string(0, "Error\n"));
 			fill_map(data, line, &secure);
 		}
 		else if (!ft_strlen(line) && secure)
-			return (free_and_return(return_string(0, "Error\nEmpty line found\n"), line));
+			return (free_and_return(return_string(0, "Error\n"), line));
 		else
 		{
 			if (ft_strlen(line) > 0)
-				return (free_and_return(return_string(0, "Error\nWrong line found\n"), line));
+				return (free_and_return(return_string(0, "Error\n"), line));
 			free(line);
 		}
 	}

@@ -62,7 +62,7 @@ map: ${OBJS} ${H}
 				@$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
 				@${RM} ${OBJS}
 				@echo "\033[1;32m > Building <\033[0m\033[1;36m Launching Game\033[0m"
-				@./Cub3d maps/map.cub
+				@./Cub3d maps/map.cub -save
 
 re:	fclean all
 
