@@ -15,7 +15,10 @@
 int		function_mlx(t_data *data)
 {
 	if (data->save == 1)
+	{
 		save_bmp(data);
+		return (return_error(0, data, "Screen saved successfully\n"));
+	}
 	mlx_hook(data->win_ptr, 17, 1L << 0, close_red_button, (void *)data);
 	mlx_hook(data->win_ptr, 2, 1L << 0, get_event, (void *)data);
 	mlx_loop(data->mlx_ptr);

@@ -1,15 +1,14 @@
 R 1200 800
-NO textures/1.xpm
-SO textures/2.xpm
-WE textures/3.xpm
-EA textures/4.xpm
-S textures/sprite2.xpm
+NO textures/trump.xpm
+SO textures/urss.xpm
+WE textures/volcan.xpm
+EA textures/courgette.xpm
+S textures/sprite.xpm
 D textures/bh_door.xpm
 HUD textures/hud.xpm
 DEAD textures/deadscreen.xpm
-
-F 3,180,0
-C 31,119,255
+F 80,80,80
+C 126,5,0
 
 1111111111111111111111111111111111111111111
 1000000000000000000000000000000000000000001

@@ -1,5 +1,4 @@
 SRCS		=	./cub3d.c   \
-                ./image.c   \
                 ./srcs/error.c \
                 ./srcs/event.c \
                 ./get_next_line/get_next_line.c \
@@ -13,6 +12,7 @@ SRCS		=	./cub3d.c   \
                 ./srcs/parsing_map/init_player.c \
                 ./srcs/parsing_map/map_utils.c \
                 ./srcs/parsing_map/read_map.c \
+                ./srcs/display/sprite.c \
                 ./srcs/display/const_display.c \
                 ./srcs/display/cross.c \
                 ./srcs/display/display_utils.c \
@@ -28,7 +28,7 @@ SRCS		=	./cub3d.c   \
                 ./srcs/raycasting/raycasting.c \
                 ./srcs/utility/save_bmp.c	\
 
-NAME		=	cub3d
+NAME		=	cub3D
 
 H           =   includes/cub3d.h
 
@@ -49,7 +49,7 @@ link:
 				@$(MAKE) -C ./libft/
 
 ${NAME}: ${OBJS} ${H} link
-			    @$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
+			    @$(CC) ${OBJS} -Wall -Wextra -Werror -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
 			    @echo "\033[1;32m > Building <\033[0m\033[1;35m .o files\033[0m"
 			    @echo "\033[1;32m > Building <\033[0m\033[1;36m ${NAME}\033[0m"
 			    @echo "\033[1;32m > Building <\033[0m\033[1;36m Binary successfully create\033[0m"
@@ -67,8 +67,8 @@ fclean: clean
 run: fclean all clean
 			    @${RM} ${OBJS}
 
-map: ${OBJS} ${H}
-				@$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
+map: ${OBJS} ${H} link
+				@$(CC) ${OBJS} -Wall -Wextra -Werror -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
 				@${RM} ${OBJS}
 				@echo "\033[1;32m > Building <\033[0m\033[1;36m Launching Game\033[0m"
 				@./cub3d maps/map.cub

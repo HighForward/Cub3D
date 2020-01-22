@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 16:37:35 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/20 20:01:19 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/22 05:27:13 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		get_wall_dda(t_data *data, t_render *render, t_ray ray)
 {
 	while (render->hit == 0)
 	{
-		if (render->sideDistX < render->sideDistY)
+		if (render->sidedist_x < render->sidedist_y)
 			side_x(render);
 		else
 			side_y(render);
@@ -30,12 +30,12 @@ void		get_wall_dda(t_data *data, t_render *render, t_ray ray)
 		render->blockdist++;
 	}
 	if (render->side == 0)
-		render->perpWallDist = (render->map_x - data->player->x +
+		render->dist_wall = (render->map_x - data->player->x +
 								(1 - render->step_x) / 2) / ray.x;
 	else
-		render->perpWallDist = (render->map_y - data->player->y +
+		render->dist_wall = (render->map_y - data->player->y +
 								(1 - render->step_y) / 2) / ray.y;
-	data->sprite.Perp = render->perpWallDist;
+	data->sprite.dist = render->dist_wall;
 }
 
 void		load_line_buffer(t_data *data,
@@ -45,38 +45,38 @@ void		load_line_buffer(t_data *data,
 	t_graphic	tex;
 
 	x.i = 0;
-	tex.wallX = (render.side == 0) ? data->player->y + render.perpWallDist *
-			ray.y : data->player->x + render.perpWallDist * ray.x;
-	tex.wallX = tex.wallX - floor((tex.wallX));
-	tex.texX = (int)(tex.wallX * render.current.img_width);
+	tex.wallx = (render.side == 0) ? data->player->y + render.dist_wall *
+			ray.y : data->player->x + render.dist_wall * ray.x;
+	tex.wallx = tex.wallx - floor((tex.wallx));
+	tex.tex_x = (int)(tex.wallx * render.current.img_width);
 	if (render.side == 0 && ray.x > 0)
-		tex.texX = render.current.img_width - tex.texX - 1;
+		tex.tex_x = render.current.img_width - tex.tex_x - 1;
 	if (render.side == 1 && ray.y < 0)
-		tex.texX = render.current.img_width - tex.texX - 1;
-	tex.step = 1.0f * render.current.img_height / render.lineHeight;
-	tex.texPos = (render.drawstart - ((data->info->height / 2)) +
-		(render.lineHeight / 2)) * tex.step;
+		tex.tex_x = render.current.img_width - tex.tex_x - 1;
+	tex.step = 1.0f * render.current.img_height / render.lineheight;
+	tex.texpos = (render.drawstart - ((data->info->height / 2)) +
+		(render.lineheight / 2)) * tex.step;
 	x.j = render.drawstart;
 	while (x.j++ < render.drawend)
 	{
-		tex.texY = (int)tex.texPos & (render.current.img_height) - 1;
-		tex.texPos += tex.step;
+		tex.tex_y = (int)tex.texpos & (render.current.img_height) - 1;
+		tex.texpos += tex.step;
 		(*buffer)[x.i++] = get_darkness(render.current.add_tex[
-			render.current.img_height * tex.texY + tex.texX],
-					render.lineHeight);
+			render.current.img_height * tex.tex_y + tex.tex_x],
+					render.lineheight);
 	}
 }
 
 void		side_x(t_render *render)
 {
-	render->sideDistX = render->sideDistX + render->deltaDistX;
+	render->sidedist_x = render->sidedist_x + render->dist_x;
 	render->map_x = render->map_x + render->step_x;
 	render->side = 0;
 }
 
 void		side_y(t_render *render)
 {
-	render->sideDistY = render->sideDistY + render->deltaDistY;
+	render->sidedist_y = render->sidedist_y + render->dist_y;
 	render->map_y = render->map_y + render->step_y;
 	render->side = 1;
 }
