@@ -1,25 +1,34 @@
 SRCS		=	./cub3d.c   \
-				./srcs/extention.c \
                 ./image.c   \
-                ./srcs/secret_door.c \
-                ./srcs/bonus.c \
-                ./srcs/display_cross.c \
                 ./srcs/error.c \
                 ./srcs/event.c \
-                ./srcs/hud.c \
-                ./srcs/images_textures.c \
-                ./srcs/initialize_struct.c \
-                ./srcs/move_rotate.c \
-                ./srcs/parse_info.c \
-                ./srcs/parse_info_map.c \
-                ./srcs/raycasting.c \
-                ./srcs/data_raycasting.c \
-                ./srcs/read_map.c \
-                ./srcs/save_bmp.c \
                 ./get_next_line/get_next_line.c \
                 ./get_next_line/get_next_line_utils.c \
+                ./srcs/parsing_header/get_value_header.c \
+                ./srcs/parsing_header/reading.c \
+                ./srcs/parsing_header/search_key.c \
+                ./srcs/parsing_header/utils.c \
+                ./srcs/parsing_header/images_textures.c \
+                ./srcs/parsing_map/check_map.c \
+                ./srcs/parsing_map/init_player.c \
+                ./srcs/parsing_map/map_utils.c \
+                ./srcs/parsing_map/read_map.c \
+                ./srcs/display/const_display.c \
+                ./srcs/display/cross.c \
+                ./srcs/display/display_utils.c \
+                ./srcs/display/health_bar.c \
+                ./srcs/display/mini_map.c \
+                ./srcs/setup/args.c \
+                ./srcs/setup/setup.c \
+                ./srcs/utility/damage.c \
+                ./srcs/utility/function_utils.c \
+                ./srcs/utility/secret_door.c \
+                ./srcs/vector_player/move_rotate.c \
+                ./srcs/raycasting/data_raycasting.c \
+                ./srcs/raycasting/raycasting.c \
+                ./srcs/utility/save_bmp.c	\
 
-NAME		=	Cub3d
+NAME		=	cub3d
 
 H           =   includes/cub3d.h
 
@@ -62,7 +71,7 @@ map: ${OBJS} ${H}
 				@$(CC) ${OBJS} -L ./libft -lft -lmlx -framework AppKit -framework  OpenGL -o ${NAME}
 				@${RM} ${OBJS}
 				@echo "\033[1;32m > Building <\033[0m\033[1;36m Launching Game\033[0m"
-				@./Cub3d maps/map.cub -save
+				@./cub3d maps/map.cub
 
 re:	fclean all
 

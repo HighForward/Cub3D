@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:50:56 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/20 19:10:45 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/21 19:48:27 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ int		return_error(int value, t_data *data, char *str)
 	free(data->player);
 	free(data->image);
 	free(data->info);
-	system("leaks Cub3d");
-	exit(value);
+	system("leaks cub3d");
+	exit(0);
 }

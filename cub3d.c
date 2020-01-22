@@ -12,24 +12,6 @@
 
 #include "includes/cub3d.h"
 
-t_data	*malloc_struct(void)
-{
-	t_data *data;
-
-	if (!(data = malloc(sizeof(t_data))))
-		return (0);
-	if (!(data->player = malloc(sizeof(t_player))))
-		return (0);
-	if (!(data->info = malloc(sizeof(t_info))))
-		return (0);
-	if (!(data->image = malloc(sizeof(t_image))))
-		return (0);
-	if (!(data->tex = malloc(sizeof(t_texture))))
-		return (0);
-	initialize_struct_texture(data);
-	return (data);
-}
-
 int		function_mlx(t_data *data)
 {
 	if (data->save == 1)
