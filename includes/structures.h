@@ -77,6 +77,7 @@ typedef struct	s_info
 	char	*door;
 	int		color_cellar;
 	int		color_floor;
+	int		shift;
 }				t_info;
 typedef struct	s_ray
 {

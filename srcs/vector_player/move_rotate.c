@@ -16,6 +16,7 @@ void	obstacle(t_data *data, float move)
 {
 	if (data->map[(int)data->player->y][(int)data->player->x] == '1' ||
 		data->map[(int)data->player->y][(int)data->player->x] == 'D' ||
+		data->map[(int)data->player->y][(int)data->player->x] == '2' ||
 		data->map[(int)data->player->y][(int)data->player->x] == 'H')
 	{
 		data->player->x += -move * data->player->d.x;

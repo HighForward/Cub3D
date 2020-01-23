@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:43:28 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/20 19:12:54 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/23 08:11:35 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,13 @@ int		get_event(int key, t_data *data)
 	if (key == 2)
 		move_side(data, data->player->move);
 	if (key == 53)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		return (return_error(0, data, "Game close successfully\n"));
+	}
 	leave_secret_door(data);
 	data->secret_key = key == 14 ? 1 : 0;
+	data->info->shift = key == 256 ? -(data->info->height / 4) : 0;
 	if (key == 49)
 		data->player->dead = 0;
 	if (display(data, key) == 0)

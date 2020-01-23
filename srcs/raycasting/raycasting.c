@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 16:07:31 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/22 05:27:13 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/23 07:37:22 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,20 @@ void		print_lines(t_data *data, t_ray ray, t_render render, int *buffer)
 
 	i = 0;
 	x = 0;
-	while (x < data->info->height)
+	render.drawstart += data->info->shift;
+	render.drawend += data->info->shift;
+	while (x++ <= render.drawstart)
+		data->image->img_data[(x - 1) * data->info->width + ray.i] =
+				data->info->color_cellar;
+	x = render.drawend;
+	while (x++ < data->info->height)
+		data->image->img_data[(x - 1) * data->info->width + ray.i] =
+				data->info->color_floor;
+	x = render.drawstart;
+	while (x < render.drawend)
 	{
-		if (x > render.drawstart && x < render.drawend)
-		{
-			data->image->img_data[(x) * data->info->width + ray.i] = buffer[i];
-			i++;
-		}
-		else if (x <= render.drawstart)
-			data->image->img_data[(x) * data->info->width + ray.i] =
-					data->info->color_cellar;
-		else if (x >= render.drawend && x < data->info->height)
-			data->image->img_data[(x) * data->info->width + ray.i] =
-					data->info->color_floor;
+		data->image->img_data[(x) * data->info->width + ray.i] = buffer[i];
+		i++;
 		x++;
 	}
 }

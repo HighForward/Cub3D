@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:50:56 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/22 01:26:27 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/23 08:12:44 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		close_red_button(t_data *game)
 {
+	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	system("leaks cub3d");
 	return (return_error(1, game, "Successfully closed\n"));
 }
 

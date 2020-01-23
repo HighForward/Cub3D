@@ -73,6 +73,19 @@ map: ${OBJS} ${H} link
 				@echo "\033[1;32m > Building <\033[0m\033[1;36m Launching Game\033[0m"
 				@./cub3d maps/map.cub
 
+bonus: all
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Minimap \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Fov based on distance \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Colision with wall \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Colision with object \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m HUD \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Crouch \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Health point bar\033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Trap who make damage \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Door \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Secret Door \033[0m"
+				@echo "\033[1;32m > BONUS <\033[0m\033[1;36m Dead screen \033[0m"
+
 re:	fclean all
 
 .PHONY: clean fclean re bonus run

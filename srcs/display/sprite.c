@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:57:42 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/22 04:18:29 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/23 08:03:54 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	display_sprite(t_data *data, t_ray ray)
 			if (r.tex_x < 0 || r.tex_x > 31)
 				return ;
 			if (r.color != convertrgb(0, 0, 0) && r.tex_x > 0)
-				data->image->img_data[r.s_y * data->info->width + ray.i] =
+				data->image->img_data[(r.s_y + data->info->shift)
+				* data->info->width + ray.i] =
 					r.color;
 			r.s_y++;
 		}
